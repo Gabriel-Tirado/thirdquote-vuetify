@@ -21,7 +21,7 @@
     </div>
 
     <v-layout>
-      <v-navigation-drawer v-model="coreDrawer" temporary style="width: 25%">
+      <v-navigation-drawer v-model="coreDrawer" temporary position="left" style="width: 25%">
       <div v-for="sol in solutions" :key="sol.id">
         <template v-if="sol.public || development">
           <router-link :to="{name: 'Core', params: { url: sol.url }}">
@@ -32,12 +32,15 @@
     </v-navigation-drawer>
     </v-layout>
 
-    <!-- <it-drawer v-model="advDrawer">
+    <v-layout>
+      <v-navigation-drawer v-model="advDrawer" temporary position="right">
       <SolutionCard :image1="image1" :image2="image2" :title="title"/>
       <router-link :to="{name: 'Budgetary', params: {url: 'test'}}">Budgetary</router-link>
-    </it-drawer>
+    </v-navigation-drawer>
+    </v-layout>
     
-    <it-drawer v-model="authDrawer" placement="left">
+    <v-layout>
+      <v-navigation-drawer v-model="authDrawer" temporary position="right" style="width: 25%">
       <div id="pad" v-if="loggedIn">
         <div id="buffer"></div>
         <router-link :to="{name: 'BudgetaryList'}">
@@ -52,7 +55,8 @@
         <div id="buffer"></div>
         <v-btn block type="black" outlined @click="MicrosoftLogin">Sign in with Microsoft</v-btn>
       </div>
-    </it-drawer> -->
+    </v-navigation-drawer>
+    </v-layout>
     
   </div>
 </template>
