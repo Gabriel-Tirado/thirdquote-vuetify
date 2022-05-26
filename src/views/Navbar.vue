@@ -1,16 +1,16 @@
 <template>
   <div id="nav">
     <div id="navbar">
-      <div>
+      <div style="margin: auto">
         <router-link :to="{name: 'Home'}">
-          <img src="@/assets/iiiqio.png" >
+          <v-img src="@/assets/iiiqio.png" height="auto" width="auto" cover/>
         </router-link>
       </div>
       <template v-if="loggedIn">
-        <div><v-btn @click="coreDrawer = true">Panel Solutions</v-btn></div>
+        <div style="margin: auto"><v-btn size="large" @click="coreDrawer=true" >Panel Solutions</v-btn></div>
         <div></div>
         <!-- <div><v-btn @click="advDrawer = true">Advanced Controls</v-btn></div> -->
-        <div><v-btn @click="authDrawer = true" style="float: right"><v-avatar :src="auth.user.photoURL"/></v-btn></div>
+        <div><v-btn @click="authDrawer = true" style="float: right" height="50px"><v-avatar><img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
       </template>
       <template v-else>
         <div></div>
@@ -21,7 +21,7 @@
     </div>
 
     <v-layout>
-      <v-navigation-drawer v-model="coreDrawer" temporary position="left" style="width: 25%">
+      <v-navigation-drawer v-model="coreDrawer" temporary position="left" style="width: 33%">
       <div v-for="sol in solutions" :key="sol.id">
         <template v-if="sol.public || development">
           <router-link :to="{name: 'Core', params: { url: sol.url }}">

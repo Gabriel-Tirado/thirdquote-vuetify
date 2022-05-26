@@ -1,47 +1,48 @@
 <template>
     <div>
         <div style="margin: 10px;"></div>
-        <it-input v-model="panelName" :status="panelNameCheck" :message="panelMessage" label-top="Panel Title"/>
+        <v-text-field v-model="panelName" :status="panelNameCheck" :message="panelMessage" label="Panel Title" variant="underlined" style="width: 100%"/>
+        <v-text-field v-model="site" :status="siteCheck" :message="siteMessage" label="Destination Site" variant="underlined" style="width: 100%"/>
+        <v-btn v-if="panelNameCheck==='success' && siteCheck==='success' && !auth.profile.employer" @click="budgetaryModal = true" type="primary">Get Budgetary Quote</v-btn>
+        <v-btn v-else-if="panelNameCheck==='success' && siteCheck==='success' && auth.profile.employer" @click="submitPanel" type="primary">Get Budgetary Quote</v-btn>
+        <v-btn v-else disabled>Get Budgetary Quote</v-btn>
         <div style="margin: 10px;"></div>
-        <it-input v-model="site" :status="siteCheck" :message="siteMessage" label-top="Destination Site"/>
-        <div style="margin: 10px;"></div>
-        <it-button v-if="panelNameCheck==='success' && siteCheck==='success' && !auth.profile.employer" @click="budgetaryModal = true" type="primary">Get Budgetary Quote</it-button>
-        <it-button v-else-if="panelNameCheck==='success' && siteCheck==='success' && auth.profile.employer" @click="submitPanel" type="primary">Get Budgetary Quote</it-button>
-        <it-button v-else disabled>Get Budgetary Quote</it-button>
-        <div style="margin: 10px;"></div>
-        <it-button v-if="panelErrors===true" @click="panelErrorModal = !panelErrorModal">Panel Warnings</it-button>
 
-        <it-modal v-model="panelErrorModal">
-            <template #body>
-                <div>
-                <h2>Panel Warnings</h2>
-                <div v-for="component in panelComponents" :key="component.id">
-                    <div v-if="component.max_exceed===true">
-                        <p>
-                            {{component.component.name}} max value exceeded<br>
-                            Part Max: {{component.max}} Part Actual: {{component.total}},
-                        </p><br>
+
+        <v-btn color="error" v-if="panelErrors===true" @click="panelErrorModal = !panelErrorModal">Panel Warnings</v-btn>
+
+        <v-overlay v-model="panelErrorModal" class="align-center justify-center">
+            <v-card height="75vh">
+                <v-card-text>
+                    <h1>Panel Warnings</h1><br>
+                    <div v-for="component in panelComponents" :key="component.id">
+                        <div v-if="component.max_exceed===true">
+                            <p>
+                                {{component.component.name}} max value exceeded<br>
+                                Part Max: {{component.max}} Part Actual: {{component.total}},
+                            </p><br>
+                        </div>
                     </div>
-                </div>
-                </div>
-            </template>
-        </it-modal>
+                </v-card-text>
+            </v-card>
+        </v-overlay>
 
-        <it-modal v-model="budgetaryModal">
-            <template #body>
-                <div>
-                <h2>One Small Step for Man Remains</h2>
-                <h4>Please complete some more information and we'll deliver you this quote right away</h4>
-                <form @submit.prevent="onSubmit">
-                    <it-input v-model="auth.profile.employer" :status="employerCheck" label-top="Name of Employer"/>
-                    <it-input v-model="auth.profile.position" :status="positionCheck" label-top="Your Position or Title"/>
-                    <it-button v-if="employerCheck==='success' && positionCheck==='success'" type="primary" @click="submit">Submit to Big Brother</it-button>
-                    <it-button v-else disabled>Submit to Big Brother</it-button>
-                </form>
-
-                </div>
-            </template>
-        </it-modal>
+        <v-overlay v-model="budgetaryModal" class="align-center justify-center">
+            <v-card>
+                <v-card-text>
+                    <div>
+                        <h2>One Small Step for Man Remains</h2>
+                        <h4>Please complete some more information and we'll deliver you this quote right away</h4><br>
+                        <form @submit.prevent="onSubmit">
+                            <v-text-field v-model="auth.profile.employer" :status="employerCheck" label="Name of Employer" variant="underlined" style="width: 100%"/>
+                            <v-text-field v-model="auth.profile.position" :status="positionCheck" label="Your Position or Title" variant="underlined" style="width: 100%"/>
+                            <v-btn v-if="employerCheck==='success' && positionCheck==='success'" type="primary" @click="submit">Submit to Big Brother</v-btn>
+                            <v-btn v-else disabled>Submit to Big Brother</v-btn>
+                        </form>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </v-overlay>
     </div>
 </template>
 
