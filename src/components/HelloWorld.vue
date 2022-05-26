@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h2>You need one. Make it good.</h2>
-    <img alt="Third Quote logo" src="../assets/iiiqfull.png">
+    <v-img alt="Third Quote logo" src="@/assets/iiiqfull.png" width="auto" height="auto" style="margin: auto"/>
     <h1>{{ msg }}</h1>
   </div>
 </template>

@@ -10,7 +10,7 @@
         <div style="margin: auto"><v-btn size="large" @click="coreDrawer=true" >Panel Solutions</v-btn></div>
         <div></div>
         <!-- <div><v-btn @click="advDrawer = true">Advanced Controls</v-btn></div> -->
-        <div><v-btn @click="authDrawer = true" style="float: right" height="50px"><v-avatar><img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
+        <div><v-btn @click="authDrawer = true" style="float: right" height="50px"><v-avatar><v-img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
       </template>
       <template v-else>
         <div></div>

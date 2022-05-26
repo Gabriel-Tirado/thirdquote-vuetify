@@ -38,14 +38,18 @@
                         </a>
                     </div>
                 </div>
-                <it-drawer v-model="optionDrawer">
-                    <template v-for="section in budgetaryData.panel.sections" :key="section.order">
-                            <h3>{{section.name}}</h3>
-                            <template v-for="option in section.options" :key="option.order">
-                                    <p>{{option.name}}: {{option.selection}}</p>
-                            </template>
-                    </template>
-                </it-drawer>
+
+                <v-layout>
+                    <v-navigation-drawer v-model="optionDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                        <template v-for="section in budgetaryData.panel.sections" :key="section.order">
+                                <h3>{{section.name}}</h3>
+                                <template v-for="option in section.options" :key="option.order">
+                                        <p>{{option.name}}: {{option.selection}}</p>
+                                </template>
+                        </template>
+                    </v-navigation-drawer>
+                </v-layout>
+                
                 <!-- Material Selection Section -->
                 <template v-if="auth.internal || auth.partner">
                     <div id="buttonGrid">
@@ -63,18 +67,22 @@
                             </a>
                         </div>
                     </div>
-                    <it-drawer v-model="materialDrawer">
-                        <template v-for="component in budgetaryData.panelComponents" :key="component">
-                                <template v-if="component.total > 0">
-                                    <h4>{{component.component.name}}</h4>
-                                    <h5>Model: {{component.component.model_id}} - {{component.component.manufacturer}}</h5>
-                                    <template v-if="auth.internal">
-                                        <h5>Cost - {{component.component.cost}}  |   Sell - {{component.component.sell}}</h5>
+
+                    <v-layout>
+                        <v-navigation-drawer v-model="materialDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                            <template v-for="component in budgetaryData.panelComponents" :key="component">
+                                    <template v-if="component.total > 0">
+                                        <h4>{{component.component.name}}</h4>
+                                        <h5>Model: {{component.component.model_id}} - {{component.component.manufacturer}}</h5>
+                                        <template v-if="auth.internal">
+                                            <h5>Cost - {{component.component.cost}}  |   Sell - {{component.component.sell}}</h5>
+                                        </template>
+                                        <h5>Quantity  - {{component.total}}</h5>
                                     </template>
-                                    <h5>Quantity  - {{component.total}}</h5>
-                                </template>
-                        </template>
-                    </it-drawer>
+                            </template>
+                        </v-navigation-drawer>
+                    </v-layout>
+                    
                 </template>
                 <!-- Labor Requirement Section -->
                 <template v-if="auth.internal">
@@ -93,13 +101,17 @@
                             </a>
                         </div>
                     </div>
-                    <it-drawer v-model="laborDrawer">
-                        <template v-for="labor in budgetaryData.panelLabors" :key="labor">
-                                <h4>{{labor.type.type}}</h4>
-                                <h5>Cost - {{labor.type.cost}}  |   Sell - {{labor.type.sell}}</h5>
-                                <h5>Quantity - {{labor.total}}</h5>
-                        </template>
-                    </it-drawer>
+
+                    <v-layout>
+                        <v-navigation-drawer v-model="laborDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                            <template v-for="labor in budgetaryData.panelLabors" :key="labor">
+                                    <h4>{{labor.type.type}}</h4>
+                                    <h5>Cost - {{labor.type.cost}}  |   Sell - {{labor.type.sell}}</h5>
+                                    <h5>Quantity - {{labor.total}}</h5>
+                            </template>
+                        </v-navigation-drawer>
+                    </v-layout>
+
                 </template>
                 <!-- Cost Sell Section -->
                 <template v-if="auth.internal">
@@ -118,11 +130,16 @@
                             </a>
                         </div>
                     </div>
-                    <it-drawer v-model="costSellDrawer">
-                        <template v-for="(price, item) in budgetaryData.displayPrice" :key="item">
-                                <h3>{{item}}: {{price}}</h3>
-                        </template>
-                    </it-drawer>
+
+                    <v-layout>
+                       <v-navigation-drawer v-model="costSellDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                            <template v-for="(price, item) in budgetaryData.displayPrice" :key="item">
+                                    <h3>{{item}}: {{price}}</h3>
+                            </template>
+                       </v-navigation-drawer> 
+                    </v-layout>
+                    
+
                 </template>
                 <h3>Print Budgetary</h3>
                 <v-btn block type="black" size="big" outlined @click="printDiv()">Print</v-btn>
