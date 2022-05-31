@@ -24,11 +24,6 @@ const routes = [
     component: () => import('../views/BudgetaryDisplay.vue')
   },
   {
-    path: '/sample',
-    name: 'Sample',
-    component: () => import('../views/EqualSample.vue')
-  },
-  {
     path: '/core/:url',
     name: 'Core',
     props: true,

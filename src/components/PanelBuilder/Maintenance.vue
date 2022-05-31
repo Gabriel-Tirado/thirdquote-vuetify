@@ -1,60 +1,67 @@
 <template>
-  <vue-horizontal v-if="maintenanceBits.maintenance">
-          <div class="card" @click="maintenanceBits.option = true">
-              <div class="name">
-                  Options
-              </div>
-          </div>
-          <div class="card" @click="maintenanceBits.labor = true">
-              <div class="name">
-                  Labor
-              </div>
-          </div>
-          <div class="card" @click="maintenanceBits.components = true">
-              <div class="name">
-                  Components
-              </div>
-          </div>
-          <div class="card" @click="maintenanceBits.ios = true">
-              <div class="name">
-                  IOs
-              </div>
-          </div>
-      </vue-horizontal>
-
-      <it-drawer v-model="maintenanceBits.option">
-            <div>Options</div>
-            <div>-------</div>
-        <div v-for="section in panel.sections" :key="section.order">
-            <div>{{section.name}}</div>
-                <div>-------</div>
-            <div v-for="option in section.options" :key="option.order">
-                <div>name(name) - {{option.name}}</div>
-                <div>base multiplier(baseMultiplier) - {{option.baseMultiplier}}</div>
-                <div>multiplier(multiplier) - {{option.multiplier}}</div>
-                <div>selection(selection) - {{option.selection}}</div>
-                <div>last option(lastOption) - {{option.lastOption}}</div>
-                <div>selection Num(choiceNum) - {{option.choiceNum}}</div>
-                <div>-------</div>
+    <vue-horizontal v-if="maintenanceBits.maintenance">
+        <div class="card" @click="maintenanceBits.option = true">
+            <div class="name">
+                Options
             </div>
         </div>
-      </it-drawer>
-      <it-drawer v-model="maintenanceBits.labor">
-          <div>Labor</div>
-          <div>-------</div>
-        <div v-for="labor in panelLabors" :key="labor.id">
-            <div>type - {{labor.type.type}}</div>
-            <div>base hours(base_bours) - {{labor.base_hours}}</div>
-            <div>base add(base_add) - {{labor.base_add}}</div>
-            <div>base option add(base_option_add) - {{labor.base_option_add}}</div>
-            <div>option add(option_add) - {{labor.option_add}}</div>
-            <div>total(total) - {{labor.total}}</div>
-            <div>-------</div>
+        <div class="card" @click="maintenanceBits.labor = true">
+            <div class="name">
+                Labor
+            </div>
         </div>
-      </it-drawer>
-      <it-drawer v-model="maintenanceBits.components">
-          <div>Components</div>
-          <div>-------</div>
+        <div class="card" @click="maintenanceBits.components = true">
+            <div class="name">
+                Components
+            </div>
+        </div>
+        <div class="card" @click="maintenanceBits.ios = true">
+            <div class="name">
+                IOs
+            </div>
+        </div>
+    </vue-horizontal>
+
+    <v-layout>
+        <v-navigation-drawer v-model="maintenanceBits.option" temporary position="right" style="width: 33%">
+            <div>Options</div>
+            <div>-------</div>
+            <div v-for="section in panel.sections" :key="section.order">
+                <div>{{section.name}}</div>
+                    <div>-------</div>
+                <div v-for="option in section.options" :key="option.order">
+                    <div>name(name) - {{option.name}}</div>
+                    <div>base multiplier(baseMultiplier) - {{option.baseMultiplier}}</div>
+                    <div>multiplier(multiplier) - {{option.multiplier}}</div>
+                    <div>selection(selection) - {{option.selection}}</div>
+                    <div>last option(lastOption) - {{option.lastOption}}</div>
+                    <div>selection Num(choiceNum) - {{option.choiceNum}}</div>
+                    <div>-------</div>
+                </div>
+            </div>
+        </v-navigation-drawer>
+    </v-layout>
+
+    <v-layout>
+        <v-navigation-drawer v-model="maintenanceBits.labor" temporary position="right" style="width: 33%">
+            <div>Labor</div>
+            <div>-------</div>
+            <div v-for="labor in panelLabors" :key="labor.id">
+                <div>type - {{labor.type.type}}</div>
+                <div>base hours(base_bours) - {{labor.base_hours}}</div>
+                <div>base add(base_add) - {{labor.base_add}}</div>
+                <div>base option add(base_option_add) - {{labor.base_option_add}}</div>
+                <div>option add(option_add) - {{labor.option_add}}</div>
+                <div>total(total) - {{labor.total}}</div>
+                <div>-------</div>
+            </div>
+        </v-navigation-drawer>
+    </v-layout>
+
+    <v-layout>
+        <v-navigation-drawer v-model="maintenanceBits.components" temporary position="right" style="width: 33%">
+            <div>Components</div>
+            <div>-------</div>
             <div v-for="component in panelComponents" :key="component.id">
                 <div>name(component.name) - {{component.component.name}}</div>
                 <div>Cost/Sell - {{component.component.cost}}/{{component.component.sell}}</div>
@@ -72,10 +79,13 @@
                 </div>
                 <div>-------</div>
             </div>
-      </it-drawer>
-      <it-drawer v-model="maintenanceBits.ios">
-          <div>IOs</div>
-          <div>-------</div>
+        </v-navigation-drawer>
+    </v-layout>
+    
+    <v-layout>
+        <v-navigation-drawer v-model="maintenanceBits.ios" temporary position="right" style="width: 33%">
+            <div>IOs</div>
+            <div>-------</div>
             <div v-for="io in panelIOs" :key="io.id">
                 <div>Type - {{io.type}}</div>
                 <div>base quantity - {{io.base_quantity}}</div>
@@ -84,7 +94,8 @@
                 <div>total - {{io.total}}</div>
                 <div>-------</div>
             </div>
-      </it-drawer>
+        </v-navigation-drawer>
+    </v-layout>
 </template>
 
 <script>
@@ -109,7 +120,3 @@ export default {
     },
 }
 </script>
-
-<style>
-
-</style>
