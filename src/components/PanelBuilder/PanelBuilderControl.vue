@@ -30,7 +30,7 @@
                         </div>
                         <!-- <v-tooltip activator="parent" location="top" text="option.tooltip"> -->
                         <div>
-                          <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 33%"/>
+                          <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 25%"/>
                           <v-text-field type="number" :label="option.name" v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="margin: 0 33%"/>
                           <v-select dense="true" :label="option.name" v-if="option.type === 'CHOICE'" v-model="option.selection" :items="option.choiceArray" style="margin: 0 10%"/>
                         </div>
