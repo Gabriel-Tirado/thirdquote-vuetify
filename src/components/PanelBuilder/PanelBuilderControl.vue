@@ -3,48 +3,43 @@
       <!-- <Maintenance :panel="panel" :panelLabors="panelLabors" :panelComponents="panelComponents" :panelIOs="panelIOs"/> -->
       <vue-horizontal class="horizontal">
           <div class="item" style="height:150px;" v-for="section in panel.sections" :key="section.order">
-              <it-tooltip :content="section.tooltip" placement="top">
-                <div class="card" @click="section.drawer = true">
-                  <div class="content">
-                      <div>
-                      <div class="brand">
-                          <div class="name">
-                              <div style="font-size: x-large; font-family: 'Times New Roman'">{{section.order}}</div>
-                              <div style="padding-top:10px;">{{ section.name }}</div>
-                          </div>
-                      </div>
-                      </div>
+            <div class="card" @click="section.drawer = true">
+              <div class="content">
+                <div>
+                  <div class="brand">
+                    <div class="name">
+                      <div style="font-size: x-large; font-family: 'Times New Roman'">{{section.order}}</div>
+                      <div style="padding-top:10px;">{{ section.name }}</div>
+                    </div>
                   </div>
                 </div>
-              </it-tooltip>
+              </div>
+            </div>
           </div>
       </vue-horizontal>
         <div class="item" v-for="section in panel.sections" :key="section.order">
-            <it-drawer v-model="section.drawer" :placement="section.float_side" width="400px">
-                <h3>{{section.name}}</h3>
-                <div id="options">
-                  <div id="buffer"></div>
-                <div v-for="option in section.options" :key="option.order">
-                    <div class="option">
-                        <div align="left" class="description">
-                          <h4 style="text-align: left">{{option.description}}</h4>
+            <v-layout>
+              <v-navigation-drawer v-model="section.drawer" position="right" temporary style="width: 30%; padding: 10px">
+                  <h3>{{section.name}}</h3>
+                  <div id="options">
+                    <div id="buffer"></div>
+                    <div v-for="option in section.options" :key="option.order">
+                      <div>
+                        <div class="description">
+                          <h4>{{option.description}}</h4>
                         </div>
-                          <div class="name">
-                              {{option.name}}
-                          </div>
-                        <it-tooltip :content="option.tooltip" placement="top">
-                          <div class="choice">                
-                              <it-switch v-if="option.type === 'BOOL'" v-model="option.selection" />
-                              <it-number-input v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="width: 12px;"/>
-                              <it-toggle v-if="option.type === 'CHOICE' && option.choiceArray.length <= 3" v-model="option.selection" :options="option.choiceArray"/>
-                              <it-select v-if="option.type === 'CHOICE' && option.choiceArray.length >= 4" v-model="option.selection" :options="option.choiceArray"/>
-                              <div v-if="option.type === 'CHOICE' && option.choiceArray.length >= 4" :style="{marginBottom: 150 + 'px'}"></div>
-                          </div>
-                        </it-tooltip>
+                        <!-- <v-tooltip activator="parent" location="top" text="option.tooltip"> -->
+                        <div>
+                          <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 33%"/>
+                          <v-text-field type="number" :label="option.name" v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="margin: 0 33%"/>
+                          <v-select dense="true" :label="option.name" v-if="option.type === 'CHOICE'" v-model="option.selection" :items="option.choiceArray" style="margin: 0 10%"/>
+                        </div>
+                        <!-- </v-tooltip> -->
+                      </div>
                     </div>
-                </div>
-                </div>
-            </it-drawer>
+                  </div>
+              </v-navigation-drawer>
+            </v-layout>
         </div>
         <div id="grid">
             <div>
@@ -278,7 +273,7 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  // padding: 10px;
   // margin: 5px;
   // border: 1px solid #d3dae6;
   // border-radius: 6px;
@@ -311,13 +306,13 @@ section {
 }
 
 #options {
-    display: grid;
-    grid-template-columns: 1fr;  
+    display: block;
+     
 }
 #options > div {
-  display: flex;
-  padding: 10px;
-  margin: 5px;
+  // display: flex;
+  // padding: 10px;
+  // margin: 5px;
   border-radius: 6px;
   box-sizing: border-box;
   transition: 0.17s all ease-in-out;
@@ -327,9 +322,9 @@ section {
   grid-template-columns: 1fr 3fr;
 }
 .description{
-  grid-column: span 2;
-  text-align: left;
-  float: left;
+  padding: 5px;
+  text-align: center;
+  float: center;
 }
 // .name {
 //   grid-column: 1;
@@ -352,6 +347,6 @@ section {
   margin: 5px;
 }
 #buffer > div {
-  padding: 10px;
+  padding: 5px;
 }
 </style>

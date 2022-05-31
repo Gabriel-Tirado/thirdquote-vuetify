@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <div id="navbar">
-      <div style="margin: auto">
+      <div style="margin: 10px auto">
         <router-link :to="{name: 'Home'}">
           <v-img src="@/assets/iiiqio.png" height="auto" width="auto" cover/>
         </router-link>
@@ -10,12 +10,12 @@
         <div style="margin: auto"><v-btn size="large" @click="coreDrawer=true" >Panel Solutions</v-btn></div>
         <div></div>
         <!-- <div><v-btn @click="advDrawer = true">Advanced Controls</v-btn></div> -->
-        <div><v-btn @click="authDrawer = true" style="float: right" height="50px"><v-avatar><v-img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
+        <div><v-btn @click="authDrawer = true" style="float: right; margin: 10px" height="50px"><v-avatar><v-img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
       </template>
       <template v-else>
         <div></div>
         <div></div>
-        <div><v-btn @click="authDrawer = true" style="float: right"><v-avatar /></v-btn></div>
+        <div><v-btn @click="authDrawer = true" style="float: right; margin: 10px" height="50px"><v-avatar /></v-btn></div>
       </template>
       
     </div>
@@ -33,7 +33,7 @@
     </v-layout>
 
     <v-layout>
-      <v-navigation-drawer v-model="advDrawer" temporary position="right">
+      <v-navigation-drawer v-model="advDrawer" temporary position="left" style="width: 33%">
       <SolutionCard :image1="image1" :image2="image2" :title="title"/>
       <router-link :to="{name: 'Budgetary', params: {url: 'test'}}">Budgetary</router-link>
     </v-navigation-drawer>

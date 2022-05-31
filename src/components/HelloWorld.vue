@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h2>You need one. Make it good.</h2>
-    <v-img alt="Third Quote logo" src="@/assets/iiiqfull.png" width="auto" height="auto" style="margin: auto"/>
+    <v-img alt="Third Quote logo" src="@/assets/iiiqfull.png" width="auto" height="auto" style="margin: 10px auto"/>
     <h1>{{ msg }}</h1>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
+h2 {
   margin: 40px 0 0;
 }
 ul {

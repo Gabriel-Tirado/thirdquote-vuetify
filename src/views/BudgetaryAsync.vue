@@ -25,16 +25,16 @@
                 <!-- Option Selection Section -->
                 <div id="buttonGrid">
                     <div>
-                        <v-btn size="big" block type="black" outlined @click="optionDrawer = true">Option Selections</v-btn>
+                        <v-btn size="large" block @click="optionDrawer = true">Option Selections</v-btn>
                     </div>
                     <div>
                         <a :href="'data:text/txt;charset=utf-8,'+optionDL('\t')" download="options.txt">
-                            <v-btn block type="black" outlined ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
+                            <v-btn size="large" block ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
                         </a>
                     </div>
                     <div>
                         <a :href="'data:text/csv;charset=utf-8,'+optionDL(',')" download="options.csv">
-                            <v-btn block type="black" outlined ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
+                            <v-btn size="large" block ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
                         </a>
                     </div>
                 </div>
@@ -54,16 +54,16 @@
                 <template v-if="auth.internal || auth.partner">
                     <div id="buttonGrid">
                         <div>
-                            <v-btn block type="black" size="big" outlined @click="materialDrawer = true">Materials (BOM)</v-btn>
+                            <v-btn size="large" block @click="materialDrawer = true">Materials (BOM)</v-btn>
                         </div>
                         <div>
                             <a :href="'data:text/txt;charset=utf-8,'+materialDL('\t')" download="materials.txt">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
                             </a>
                         </div>
                         <div>
                             <a :href="'data:text/csv;charset=utf-8,'+materialDL(',')" download="materials.csv">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
                             </a>
                         </div>
                     </div>
@@ -88,16 +88,16 @@
                 <template v-if="auth.internal">
                     <div id="buttonGrid">
                         <div>
-                            <v-btn block size="big" type="black" outlined @click="laborDrawer = true">Labor Requirements</v-btn>
+                            <v-btn size="large" block @click="laborDrawer = true">Labor Requirements</v-btn>
                         </div>
                         <div>
                             <a :href="'data:text/txt;charset=utf-8,'+laborDL('\t')" download="labor.txt">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
                             </a>
                         </div>
                         <div>
                             <a :href="'data:text/csv;charset=utf-8,'+laborDL(',')" download="labor.csv">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
                             </a>
                         </div>
                     </div>
@@ -117,16 +117,16 @@
                 <template v-if="auth.internal">
                     <div id="buttonGrid">
                         <div>
-                            <v-btn block size="big" type="black" outlined @click="costSellDrawer = true">Cost Sell Items</v-btn>
+                            <v-btn size="large" block @click="costSellDrawer = true">Cost Sell Items</v-btn>
                         </div>
                         <div>
                             <a :href="'data:text/txt;charset=utf-8,'+costSellDL('\t')" download="CostSell.txt">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/DkgJqKg/txt.png" alt="TXT"></v-btn>
                             </a>
                         </div>
                         <div>
                             <a :href="'data:text/csv;charset=utf-8,'+costSellDL(',')" download="CostSell.csv">
-                                <v-btn block type="black" outlined ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
+                                <v-btn size="large" block ><img src="https://i.ibb.co/5XZ3GVh/csv.png" alt="CSV"></v-btn>
                             </a>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
 
                 </template>
                 <h3>Print Budgetary</h3>
-                <v-btn block type="black" size="big" outlined @click="printDiv()">Print</v-btn>
+                <v-btn size="large" block @click="printDiv()">Print</v-btn>
             </div>
         </div>
   </div>
@@ -292,6 +292,7 @@ export default {
 };
 #sideFrame {
     margin-top: 50px;
+    margin-right: 10vw;
     min-width: 300px;
    
 };
