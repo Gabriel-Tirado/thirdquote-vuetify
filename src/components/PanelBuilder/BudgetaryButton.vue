@@ -3,8 +3,8 @@
         <div style="margin: 10px;"></div>
         <v-text-field v-model="panelName" :status="panelNameCheck" :message="panelMessage" label="Panel Title" variant="underlined" style="width: 100%"/>
         <v-text-field v-model="site" :status="siteCheck" :message="siteMessage" label="Destination Site" variant="underlined" style="width: 100%"/>
-        <v-btn v-if="panelNameCheck==='success' && siteCheck==='success' && !auth.profile.employer" @click="budgetaryModal = true" type="primary">Get Budgetary Quote</v-btn>
-        <v-btn v-else-if="panelNameCheck==='success' && siteCheck==='success' && auth.profile.employer" @click="submitPanel" type="primary">Get Budgetary Quote</v-btn>
+        <v-btn v-if="panelNameCheck==='success' && siteCheck==='success' && !auth.profile.employer && panelErrors===false" @click="budgetaryModal = true" type="primary">Get Budgetary Quote</v-btn>
+        <v-btn v-else-if="panelNameCheck==='success' && siteCheck==='success' && auth.profile.employer && panelErrors===false" @click="submitPanel" type="primary">Get Budgetary Quote</v-btn>
         <v-btn v-else disabled>Get Budgetary Quote</v-btn>
         <div style="margin: 10px;"></div>
 
@@ -20,6 +20,12 @@
                             <p>
                                 {{component.component.name}} max value exceeded<br>
                                 Part Max: {{component.max}} Part Actual: {{component.total}},
+                            </p><br>
+                        </div>
+                        <div v-if="component.min_exceed===true">
+                            <p>
+                                {{component.component.name}} min value exceeded<br>
+                                Part Min: {{component.min}} Part Actual: {{component.total}},
                             </p><br>
                         </div>
                     </div>
@@ -77,18 +83,28 @@ export default {
         const router = useRouter()
 
         const panelErrors = computed(()=> {
-            let max_exceed_found = false
+            let error_found = false
             for (let i=0; i<props.panelComponents.length; i++) {
                 let panelComponent = props.panelComponents[i]
                 if (panelComponent.max_exceed == true) {
-                    max_exceed_found = true
+                    error_found = true
                     break
                 }
                 else {
-                    max_exceed_found = false
+                    error_found = false
                 }
             }
-            return max_exceed_found
+            for (let i=0; i<props.panelComponents.length; i++) {
+                let panelComponent = props.panelComponents[i]
+                if (panelComponent.min_exceed == true) {
+                    error_found = true
+                    break
+                }
+                else {
+                    error_found = false
+                }
+            }
+            return error_found
         })
 
         const panelNameCheck = computed(()=>{

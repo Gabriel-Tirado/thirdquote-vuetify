@@ -1,7 +1,8 @@
 <template>
   
   <div v-if="error">{{error}}</div>
-  <Suspense>
+  <div class="navigation">
+    <Suspense>
     <template #default>
       <Navbar :user="auth.user" :loggedIn="auth.loggedIn"/>
     </template>
@@ -9,6 +10,7 @@
       Loading...
     </template>
   </Suspense>
+  </div>
   <router-view v-slot="{ Component }">
     <Suspense>
       <template #default>
@@ -72,7 +74,7 @@ export default {
 }
 
 #nav {
-  padding: 10px;
+  padding: 5px 0 0;
 }
 
 #nav a {
@@ -87,5 +89,14 @@ export default {
 #navbar {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 4fr;
+}
+
+.navigation {
+  position: sticky;
+  width: 100%;
+  z-index: 1;
+  background-color: white;
+  top: 0;
+  left: 0;
 }
 </style>
