@@ -1,38 +1,43 @@
 <template>
   <HelloWorld/>
-  <h2 style="text-align: left">Panel Types</h2>
-  <vue-horizontal class="horizontal">
-      <div class="item" v-for="panel in solution.panels" :key="panel.size">
-        <template v-if="panel.public || development">
-          <router-link :to="{name: 'CorePanel', params: { url: url, panel_url: panel.panel_url }}">  
-            <div class="card">
-              <div class="image" :style="{background: `url(${panel.ui_image})`}">
-
-              </div>
-              <div class="content">
-                <div>
-                  <div class="brand">
-                    <div class="name">{{ panel.name }}</div>
+  <div class="table-list">
+    <div style="grid-column: 2">
+      <v-table fixed-header height="auto" density="compact" style="border: 1px solid #ededed; border-radius: 5px;">
+        <thead>
+          <tr>
+            <th class="text-center" style="background-color: #ededed">
+              <h2>Panel Types</h2>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="horizontal">
+          <tr class="item" v-for="panel in solution.panels" :key="panel.size">
+            <div v-if="panel.public || development">
+              <router-link :to="{name: 'CorePanel', params: { url: url, panel_url: panel.panel_url }}" style="text-decoration: none">  
+                  <div class="grid-list">
+                    <div class="image" :style="{background: `url(${panel.ui_image})`}"></div>
+                    <!-- <v-img :src="panel.ui_image"></v-img> -->
+                      <div class="brand">
+                        <div class="name">{{ panel.name }}</div>
+                      </div>
+                      <div class="title">{{ panel.description }}</div>
                   </div>
-                </div>
-                <div class="title">{{ panel.description }}</div>
-              </div>
+              </router-link>
             </div>
-          </router-link>
-        </template>
-      </div>
-    </vue-horizontal>
+          </tr>
+        </tbody>
+      </v-table>
+    </div>
+  </div>
 </template>
 
 <script>
 import { computed, ref } from 'vue'
-import VueHorizontal from 'vue-horizontal'
 import { apiurl } from '../drf/drfapi.js'
 import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
     components: {
-        VueHorizontal,
         HelloWorld,
     },
     props: [
@@ -79,27 +84,22 @@ section {
 
 .image {
   background-position: center !important;
-  background-size: cover !important;
+  background-size: 30% !important;
   background-repeat: no-repeat !important;
   padding-top: 50%;
 }
 
 .content {
   padding: 10px 12px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 
 .brand {
-  display: flex;
   align-items: center;
   color: #333333;
 }
 
 .brand .icon {
-  flex-shrink: 0;
   height: 20px;
   width: 20px;
   fill: currentColor;
@@ -110,6 +110,7 @@ section {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
+  margin: 15% auto;
 }
 
 .title {
@@ -117,14 +118,23 @@ section {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.6;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 15% auto;
 }
 
 .date {
   font-size: 12px;
   font-weight: 500;
   line-height: 1.5;
+}
+
+.grid-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.table-list {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
 }
 </style>
 

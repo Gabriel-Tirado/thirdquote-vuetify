@@ -1,29 +1,42 @@
 <template>
   <HelloWorld msg=""/>
-  <div v-for="(budgetaries, title) in sortedBudgetary" :key="title">
-    <h3>{{title}}</h3>
-  <vue-horizontal class="horizontal">
-      <div class="item" v-for="budgetary in budgetaries" :key="budgetary.title">
-        <router-link :to="{name: 'Budgetary', params: { url: budgetary.url }}">
-          <div class="card">
-            <div class="content">
-              <div>
-                <div class="brand">
-                  <div class="name">{{ budgetary.title }}</div>
-                </div>
+  <div class="table-list">
+    <div v-for="(budgetaries, title) in sortedBudgetary" :key="title" style="grid-column: 2">
+      <h4>{{title}}</h4>
+      
+      <v-table fixed-header height="500px" density="compact" style="border: 1px solid #ededed; border-radius: 5px;">
+        <thead>
+          <tr>
+            <th class="text-center" style="background-color: #ededed">
+              <div class="content brand">
+                <div class="title">Project Number:</div>
+                <div class="title">Title:</div>
+                <div class="title">Site:</div>
               </div>
-              <div class="title">{{ budgetary.title }}</div>
-            </div>
-          </div>
-        
-        </router-link>
-      </div>
-    </vue-horizontal>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="horizontal">
+          
+          <tr v-for="budgetary in budgetaries" :key="budgetary.title">
+            <td>
+              <router-link :to="{name: 'Budgetary', params: { url: budgetary.url }}" style="text-decoration: none;">
+                <div class="content brand">
+                  <div class="title">{{ budgetary.projectNum }}</div>
+                  <div class="title">{{ budgetary.title }}</div>
+                  <div class="title">{{ budgetary.site }}</div>
+                </div>
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
+    </div>
   </div>
+  
 </template>
 
 <script>
-import VueHorizontal from 'vue-horizontal'
 import { getBudgetaryList } from '../firebase/db'
 import auth from '../firebase/auth'
 import HelloWorld from '@/components/HelloWorld.vue'
@@ -31,7 +44,6 @@ import { reactive } from '@vue/reactivity'
 
 export default {
     components: {
-        VueHorizontal,
         HelloWorld,
     },
     async setup (){
@@ -79,15 +91,13 @@ section {
 }
 
 .content {
-  padding: 10px 12px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 5px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: left;
 }
 
 .brand {
-  display: flex;
   align-items: center;
   color: #333333;
 }
@@ -111,14 +121,24 @@ section {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.6;
-  margin-top: 8px;
-  margin-bottom: 8px;
 }
 
 .date {
   font-size: 12px;
   font-weight: 500;
   line-height: 1.5;
+}
+
+.table-list {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  padding: 20px;
+  row-gap: 50px;
+}
+
+.headerNames { 
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 </style>
 

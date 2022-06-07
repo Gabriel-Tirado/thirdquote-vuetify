@@ -3,6 +3,7 @@
             <img src="https://i.ibb.co/whTMQS8/image.png">
             <h1>Everworks Budgetary Proposal</h1>
             <h2>{{proposalName}}</h2>
+
             <div id="pad"></div>
             <h3 style="text-align: right">Project: {{data.projectNum}}</h3>
             <h3 style="text-align: right">Date: {{data.date.split(" ", 4).join(' ')}}</h3>
@@ -21,6 +22,7 @@
                 any documents or copies thereof in whole or in part to any third party, 
                 without the expressed written consent of Everworks, Inc.
             </p>
+            <PageBreak />
             <div id="panel">
                 <div>
                     <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'sub'"/>
@@ -29,9 +31,7 @@
                     <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'enc'"/>  
                 </div>
             </div>
-            <div id="pad"></div>
-            <div id="pad"></div>
-            <div id="pad"></div>
+            <PageBreak />
             <h3>Introduction</h3>
             <p>
                 Everworks is pleased to provide a budgetary proposal for the necessary design,
@@ -47,8 +47,7 @@
                 in the fast-paced world of automation.
             </p>
             <img src="https://i.ibb.co/tCzm76c/image.png">
-            <div id="pad"></div>
-            
+            <PageBreak />            
             <h3>Project Overview</h3>
             <h4>Summary</h4>
             <p>
@@ -68,6 +67,7 @@
                     {{deliverable}}
                 </li>
             </ul>
+            <PageBreak />
             <h3>Scope of Work</h3>
             <h4>Engineering Design Services</h4>
             <h5>Project Management</h5>
@@ -168,6 +168,7 @@
                 <li>Cost of spare parts is NOT included in scope of this proposal</li>
                 <li>Spare parts can be quoted separately upon customer request</li>
             </ul>
+            <PageBreak />
             <h3>Preliminary Schedule</h3>
             <table style="width:100%">
                 <tr style="background: #244061; color: white">
@@ -191,6 +192,7 @@
                     <td>1 Day</td>
                 </tr> -->
             </table>
+            <PageBreak />
             <h3>Pricing Summary</h3>
             <table style="width:100%">
                 <tr style="background: #244061; color: white">
@@ -213,10 +215,13 @@
 import { ref } from '@vue/reactivity'
 import { computed } from '@vue/runtime-core'
 import PanelComponentDisplay from '@/components/PanelBuilder/PanelComponentDisplay'
+import PageBreak from '@/components/PageBreak.vue'
+
 export default {
     components: {
-        PanelComponentDisplay,
-    },
+    PanelComponentDisplay,
+    PageBreak,
+},
     props: [
         'data'
     ],
@@ -369,6 +374,4 @@ export default {
     background-color: #244061;
     color: white;
 }
-
-
 </style>

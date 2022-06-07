@@ -161,7 +161,6 @@ export default {
         'url',
     ],
     async setup (props){
-        
         const budgetaryData = await getBudgetary(auth.user.email, props.url)
         const budgetaryTemplateObj = {
             'Budgetary': Budgetary,
@@ -173,6 +172,14 @@ export default {
         const laborDrawer = ref(false)
         const costSellDrawer = ref(false)
         function printDiv() {
+
+            // find all class=pagedivider
+            // iterate through all pagedivider elements and set to invisible with for loop
+            var dividers = document.getElementsByClassName('pagedivider');
+            for (var i = 0; i < dividers.length; i++) {
+                dividers[i].style.visibility = "hidden"
+            }
+
             var budgetaryContents = document.getElementById('frame').innerHTML;
             var a = window.open('', '')
             let stylesHtml = '';
@@ -184,8 +191,12 @@ export default {
             a.document.write('<body>');
             a.document.write(budgetaryContents);
             a.document.write('</body></html>');
-            a.document.close();
-            a.print()
+            a.print();
+            a.close();
+            // iterate through all pagedivider elements and set to visible with for loop
+            for (var n = 0; n < dividers.length; n++) {
+                dividers[n].style.visibility = "visible"
+            }
         }
         computed
         const optionDL = (delimiter) => {

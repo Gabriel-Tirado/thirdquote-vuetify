@@ -262,6 +262,10 @@ section {
   font-weight: 500;
   line-height: 1.5;
 }
+
+.horizontal {
+  margin-left: 10px
+}
 </style>
 
 <style scoped lang="less">
