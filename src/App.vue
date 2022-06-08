@@ -1,7 +1,7 @@
 <template>
   
   <div v-if="error">{{error}}</div>
-  <div class="navigation">
+  <div v-if="auth.loggedIn" class="navigation">
     <Suspense>
     <template #default>
       <Navbar :user="auth.user" :loggedIn="auth.loggedIn"/>
