@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <div id="navbar">
-      <div style="margin: auto; margin-left: 10px">
+      <div style="margin: auto; padding-left: 10px">
         <router-link :to="{name: 'Home'}">
           <v-img src="@/assets/iiiqio.png" height="auto" width="auto" cover/>
         </router-link>

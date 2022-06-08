@@ -110,7 +110,7 @@ section {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
-  margin: 15% auto;
+  margin: 15% 5%;
 }
 
 .title {
@@ -118,7 +118,7 @@ section {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.6;
-  margin: 15% auto;
+  margin: 15% 5%;
 }
 
 .date {
