@@ -44,9 +44,12 @@
         <div id="grid">
             <div>
               <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'sub'"/>
+              <div v-if="screenWidth < 1500">
+                <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
+              </div>
             </div>
-            <div>
-              <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>  
+            <div v-if="screenWidth >= 1500">
+                <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
             </div>
             <div id="display">
               <h3 style="text-align:left; align:left">Base Price</h3>
@@ -108,7 +111,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import VueHorizontal from 'vue-horizontal'
 import { modifyPanelOptions } from './HelperFunctions/modify-options.js'
 import { modifyPanelLabors } from './HelperFunctions/modify-labors.js'
@@ -172,6 +175,18 @@ export default {
 
         const displayPrice = priceCalculations(panel.value, panelComponents.value, panelLabors.value, 2)
 
+        const screenWidth = ref(window.innerWidth)
+
+        const updateWidth = () => {
+          screenWidth.value = window.innerWidth
+        }
+
+        onMounted(() => {
+          window.addEventListener("resize", updateWidth)
+        })
+        onUnmounted(() => {
+          window.removeEventListener("resize", updateWidth)
+        })
 
         return {
             solution,
@@ -184,7 +199,7 @@ export default {
             panelComponentLedgers,
             panelLabors,
             displayPrice,
-
+            screenWidth
         }
     }
 }
@@ -269,10 +284,7 @@ section {
 </style>
 
 <style scoped lang="less">
-#grid {
-  display: grid;
-  grid-template-columns: 7fr 7fr 4fr 5fr;
-}
+
 #grid > div {
   display: flex;
   flex-direction: column;
@@ -352,5 +364,29 @@ section {
 }
 #buffer > div {
   padding: 5px;
+}
+
+@media (min-width: 1500px)
+{
+  #grid {
+    display: grid;
+    grid-template-columns: 7fr 7fr 4fr 5fr;
+  }
+}
+
+@media (max-width: 1500px)
+{
+  #grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px)
+{
+  #grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
 </style>

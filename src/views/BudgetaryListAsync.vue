@@ -18,7 +18,7 @@
         </thead>
         <tbody class="horizontal">
           
-          <tr v-for="budgetary in budgetaries" :key="budgetary.title">
+          <tr v-for="budgetary in sortItems(budgetaries)" :key="budgetary.title">
             <td>
               <router-link :to="{name: 'Budgetary', params: { url: budgetary.url }}" style="text-decoration: none;">
                 <div class="content brand">
@@ -57,7 +57,12 @@ export default {
             sortedBudgetary[budgetary.panel.name] = [budgetary,]
           }
         }
-        return{ sortedBudgetary }
+
+        const sortItems = (_items) => {
+          return _items.sort((a, b) => b.projectNum - a.projectNum)
+        }
+
+        return{ sortedBudgetary, sortItems }
     }
 }
 </script>

@@ -23,14 +23,15 @@
                 without the expressed written consent of Everworks, Inc.
             </p>
             <PageBreak />
-            <div id="panel">
-                <div>
-                    <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'sub'"/>
+            <h2 style="text-align: center;">Subpanel</h2>
+                <div id="panel">
+                    <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'sub'" style="grid-column: 2;"/>
                 </div>
-                <div>
-                    <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'enc'"/>  
+            <PageBreak />
+            <h2 style="text-align: center;">Enclosure</h2>
+                <div id="panel">
+                    <PanelComponentDisplay :panel="data.panel" :panelComponents="data.panelComponents" :type="'enc'" style="grid-column: 2;"/>  
                 </div>
-            </div>
             <PageBreak />
             <h3>Introduction</h3>
             <p>
@@ -305,7 +306,7 @@ export default {
 <style scoped lang="less">
 #panel {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 #grid {
     display: grid;

@@ -9,7 +9,7 @@
         <div style="margin: 10px;"></div>
 
 
-        <v-btn color="error" v-if="panelErrors===true" @click="panelErrorModal = !panelErrorModal">Panel Warnings</v-btn>
+        <v-btn v-if="panelErrors===true" @click="panelErrorModal = !panelErrorModal">Panel Warnings</v-btn>
 
         <v-overlay v-model="panelErrorModal" class="align-center justify-center">
             <v-card height="75vh">
@@ -90,13 +90,7 @@ export default {
                     error_found = true
                     break
                 }
-                else {
-                    error_found = false
-                }
-            }
-            for (let i=0; i<props.panelComponents.length; i++) {
-                let panelComponent = props.panelComponents[i]
-                if (panelComponent.min_exceed == true) {
+                else if (panelComponent.min_exceed == true) {
                     error_found = true
                     break
                 }
