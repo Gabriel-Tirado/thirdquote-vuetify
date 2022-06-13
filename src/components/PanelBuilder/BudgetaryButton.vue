@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="margin: 10px;"></div>
-        <v-text-field v-model="panelName" :status="panelNameCheck" :message="panelMessage" label="Panel Title" variant="underlined" style="width: 100%"/>
+        <v-text-field v-model="panelName" :status="panelNameCheck" :message="panelMessage" label="Panel Title" variant="underlined" :hint="panelMessage" persistent-hint style="width: 100%"/>
         <v-text-field v-model="site" :status="siteCheck" :message="siteMessage" label="Destination Site" variant="underlined" style="width: 100%"/>
         <v-btn v-if="panelNameCheck==='success' && siteCheck==='success' && !auth.profile.employer && panelErrors===false" @click="budgetaryModal = true" type="primary">Get Budgetary Quote</v-btn>
         <v-btn v-else-if="panelNameCheck==='success' && siteCheck==='success' && auth.profile.employer && panelErrors===false" @click="submitPanel" type="primary">Get Budgetary Quote</v-btn>
@@ -188,5 +188,7 @@ export default {
 </script>
 
 <style>
-
+    .v-messages__message {
+        color: crimson
+    }
 </style>
