@@ -40,7 +40,7 @@
                 </div>
 
                 <v-layout>
-                    <v-navigation-drawer v-model="optionDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                    <v-navigation-drawer v-model="optionDrawer" temporary position="left" style="margin: 9.8vh 0; width: 25%; padding: 20px 10px">
                         <template v-for="section in budgetaryData.panel.sections" :key="section.order">
                                 <h3>{{section.name}}</h3>
                                 <template v-for="option in section.options" :key="option.order">
@@ -69,7 +69,7 @@
                     </div>
 
                     <v-layout>
-                        <v-navigation-drawer v-model="materialDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                        <v-navigation-drawer v-model="materialDrawer" temporary position="left" style="margin: 9vh 0; width: 25%; padding: 20px 10px">
                             <template v-for="component in budgetaryData.panelComponents" :key="component">
                                     <template v-if="component.total > 0">
                                         <h4>{{component.component.name}}</h4>
@@ -103,7 +103,7 @@
                     </div>
 
                     <v-layout>
-                        <v-navigation-drawer v-model="laborDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                        <v-navigation-drawer v-model="laborDrawer" temporary position="left" style="margin-top: 9.8vh; width: 25%; padding: 20px 10px">
                             <template v-for="labor in budgetaryData.panelLabors" :key="labor">
                                     <h4>{{labor.type.type}}</h4>
                                     <h5>Cost - {{labor.type.cost}}  |   Sell - {{labor.type.sell}}</h5>
@@ -132,7 +132,7 @@
                     </div>
 
                     <v-layout>
-                       <v-navigation-drawer v-model="costSellDrawer" temporary position="left" style="width: 25%; padding: 20px 10px">
+                       <v-navigation-drawer v-model="costSellDrawer" temporary position="left" style="margin-top: 9.8vh; width: 25%; padding: 20px 10px">
                             <template v-for="(price, item) in budgetaryData.displayPrice" :key="item">
                                     <h3>{{item}}: {{price}}</h3>
                             </template>
@@ -351,5 +351,8 @@ export default {
     color: white;
 }
 
+.buffer {
+    margin-top: 20px
+}
 
 </style>
