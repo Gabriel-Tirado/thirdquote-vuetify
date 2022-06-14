@@ -196,9 +196,9 @@ export default {
             a.document.write('<body>');
             a.document.write(budgetaryContents);
             a.document.write('</body></html>');
-            await sleep(50);
+            await sleep(25);
             a.print();
-            // a.close();
+            a.close();
             // iterate through all pagedivider elements and set to visible with for loop
             for (var n = 0; n < dividers.length; n++) {
                 dividers[n].style.visibility = "visible"
