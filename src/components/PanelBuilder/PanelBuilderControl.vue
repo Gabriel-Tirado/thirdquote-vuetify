@@ -382,7 +382,7 @@ section {
   }
 }
 
-@media (max-width: 900px)
+@media (max-width: 950px)
 {
   #grid {
     display: grid;
