@@ -171,7 +171,12 @@ export default {
         const materialDrawer = ref(false)
         const laborDrawer = ref(false)
         const costSellDrawer = ref(false)
-        function printDiv() {
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function printDiv() {
 
             // find all class=pagedivider
             // iterate through all pagedivider elements and set to invisible with for loop
@@ -191,6 +196,7 @@ export default {
             a.document.write('<body>');
             a.document.write(budgetaryContents);
             a.document.write('</body></html>');
+            await sleep(50);
             a.print();
             // a.close();
             // iterate through all pagedivider elements and set to visible with for loop
