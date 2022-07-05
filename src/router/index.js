@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import auth from '../firebase/auth'
+import { createRouter, createWebHistory } from 'vue-router'
+// import auth from '../firebase/auth'
 
 const routes = [
   {
@@ -39,17 +39,16 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 
-
-if (window.location.hostname !== 'localhost') {
-router.beforeEach((to, _, next) =>{
-  if (to.name !== 'Login' && !auth.loggedIn) next({ name: 'Login' })
-  else{
-  next()
-  }
-})
-}     
+// if (window.location.hostname !== 'localhost') {
+// router.beforeEach((to, _, next) =>{
+//   if (to.name !== 'Login' && !auth.loggedIn) next({ name: 'Login' })
+//   else{
+//   next()
+//   }
+// })
+// }     
 export default router

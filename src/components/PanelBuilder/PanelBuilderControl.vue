@@ -1,112 +1,172 @@
 <template>
   <div>
-      <!-- <Maintenance :panel="panel" :panelLabors="panelLabors" :panelComponents="panelComponents" :panelIOs="panelIOs"/> -->
-      <vue-horizontal class="horizontal">
-          <div class="item" style="height:150px;" v-for="section in panel.sections" :key="section.order">
-            <div class="card" @click="section.drawer = true">
-              <div class="content">
-                <div>
-                  <div class="brand">
-                    <div class="name">
-                      <div style="font-size: x-large; font-family: 'Times New Roman'">{{section.order}}</div>
-                      <div style="padding-top:10px;">{{ section.name }}</div>
-                    </div>
-                  </div>
+    <Maintenance :panel="panel" :panelLabors="panelLabors" :panelComponents="panelComponents" :panelIOs="panelIOs"/>
+    
+    <!-- PC/Large Tablet panel control options -->
+    <vue-horizontal class="horizontal" v-if="screenWidth > 700">
+      <div class="item" style="height:150px;" v-for="section in panel.sections" :key="section.order">
+        <div class="card" style="border: 1px solid grey" @click="section.drawer = true">
+          <div class="content">
+            <div>
+              <div class="brand">
+                <div class="name">
+                  <div style="font-size: x-large; font-family: 'Times New Roman'">{{section.order}}</div>
+                  <div style="padding-top:10px;">{{ section.name }}</div>
                 </div>
               </div>
             </div>
           </div>
-      </vue-horizontal>
-        <div class="item" v-for="section in panel.sections" :key="section.order">
-            <v-layout>
-              <v-navigation-drawer v-model="section.drawer" position="right" temporary style="width: 30%; padding: 10px">
-                  <h3>{{section.name}}</h3>
-                  <div id="options">
-                    <div id="buffer"></div>
-                    <div v-for="option in section.options" :key="option.order">
-                      <div>
-                        <div class="description">
-                          <h4>{{option.description}}</h4>
-                        </div>
-                        <!-- <v-tooltip activator="parent" location="top" text="option.tooltip"> -->
-                        <div>
-                          <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 25%"/>
-                          <v-text-field type="number" :label="option.name" v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="margin: 0 33%"/>
-                          <v-select dense="true" :label="option.name" v-if="option.type === 'CHOICE'" v-model="option.selection" :items="option.choiceArray" style="margin: 0 10%"/>
-                        </div>
-                        <!-- </v-tooltip> -->
-                      </div>
-                    </div>
-                  </div>
-              </v-navigation-drawer>
-            </v-layout>
         </div>
-        <div id="grid">
-            <div>
-              <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'sub'"/>
-              <div v-if="screenWidth < 1500">
-                <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
+      </div>
+    </vue-horizontal>
+
+    <!-- Mobile Panel Control Options -->
+    <v-btn v-if="screenWidth < 700" size="large" elevation="1" style="border: 1px solid lightgrey; width: 70vw; margin: 5% 0;" @click="solutionNavDrawer = !solutionNavDrawer">Panel Options</v-btn>
+    <v-layout v-if="screenWidth < 700">
+      <v-navigation-drawer v-model="solutionNavDrawer" touchless position="top" style="max-height: 40%; padding: 10px">
+        <div class="item" style="margin: 5px 0;" v-for="section in panel.sections" :key="section.order">
+          <v-btn class="card" @click="section.drawer = true" style="width: 90vw; margin: auto">
+            <div class="content">
+              <div>
+                <div class="brand">
+                  <div class="name">
+                    <div style="font-size: x-large; font-family: 'Times New Roman'">{{section.order}}</div>
+                    <div style="padding-top:10px; text-align: left;">{{ section.name }}</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div v-if="screenWidth >= 1500">
-                <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
-            </div>
-            <div id="display">
-              <h3 style="text-align:left; align:left">Base Price</h3>
-              <table style="width: 200px">
-                <tr>
-                  <td style="text-align:left; padding-right: 25px">Base Material</td>
-                  <td style="text-align:right">{{displayPrice.baseMaterialSell}}</td>
-                </tr>
-                <tr>
-                  <td style="text-align:left; padding-right: 25px">Base Labor</td>
-                  <td style="text-align:right">{{displayPrice.baseLaborSell}}</td>
-                </tr>
-                <tr>
-                  <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
-                  <td style="text-align:right; font-weight: bold;">{{displayPrice.baseSell}}</td>
-                </tr>
-              </table>
-              <h3 v-if="displayPrice.optionSell !== '$0'" style="text-align:left; align:left">Option Adjustments</h3>
-              <table style="width: 200px">
-                <tr v-if="displayPrice.optionMaterialSell !== '$0'">
-                  <td style="text-align:left; padding-right: 25px">Material</td>
-                  <td style="text-align:right">{{displayPrice.optionMaterialSell}}</td>
-                </tr>
-                <tr v-if="displayPrice.optionLaborSell !== '$0'">
-                  <td style="text-align:left; padding-right: 25px">Labor</td>
-                  <td style="text-align:right">{{displayPrice.optionLaborSell}}</td>
-                </tr>
-                <tr v-if="displayPrice.optionSell !== '$0'">
-                  <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
-                  <td style="text-align:right; font-weight: bold;">{{displayPrice.optionSell}}</td>
-                </tr>
-              </table>
-              <table style="width: 200px">
-                <tr>
-                  <td style="text-align:left; padding-right: 25px; font-weight: bold; font-size: 20px">Total</td>
-                  <td style="text-align:right; font-weight: bold; font-size: 20px">{{displayPrice.sell}}</td>
-                </tr>
-              </table>
-              <!-- <h3>Base Price:</h3>
-              <h5>Base Material - {{displayPrice.baseMaterialSell}}</h5> 
-              <h5>Base Labor - {{displayPrice.baseLaborSell}}</h5>
-              <h4>Subtotal - {{displayPrice.baseSell}}</h4>
-              <h3 v-if="displayPrice.optionSell !== '$0'">Option Price Adjustments:</h3>
-              <h5 v-if="displayPrice.optionMaterialSell !== '$0'">Option Material | {{displayPrice.optionMaterialSell}}</h5> 
-              <h5 v-if="displayPrice.optionLaborSell !== '$0'">Option Labor | {{displayPrice.optionLaborSell}}</h5>
-              <h4 v-if="displayPrice.optionSell !== '$0'">Option Subtotal | {{displayPrice.optionSell}}</h4>
-              <h3>Total Price - {{displayPrice.sell}}</h3> -->
-              <BudgetaryButton 
-                :panel="panel"
-                :panelOptions="panelOptions" 
-                :panelComponents="panelComponents" 
-                :panelLabors="panelLabors" 
-                :displayPrice="displayPrice"
-              />
-            </div>
-            <div></div>
+          </v-btn>
         </div>
+      </v-navigation-drawer>
+    </v-layout>
+
+    <!-- Panel Control Options NavBar -->
+    <div class="item" v-for="section in panel.sections" :key="section.order">
+      <v-layout>
+        <v-navigation-drawer v-model="section.drawer" touchless :position="(screenWidth > 700 && 'right') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 50vh; width: 100vw; padding: 10px'))">
+          <h3>{{section.name}}</h3>
+          <div id="options">
+            <div id="buffer"></div>
+            <div v-for="option in section.options" :key="option.order">
+              <div>
+                <div class="description">
+                  <h4>{{option.description}}</h4>
+                </div>
+                <!-- <v-tooltip activator="parent" location="top" text="option.tooltip"> -->
+                <div>
+                  <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 20% 0 25%;"/>
+                  <v-text-field type="number" :label="option.name" v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="margin: 0 30%"/>
+                  <v-select dense="true" :label="option.name" v-if="option.type === 'CHOICE'" v-model="option.selection" :items="option.choiceArray" style="margin: 0 10%"/>
+                </div>
+                <!-- </v-tooltip> -->
+              </div>
+            </div>
+          </div>
+        </v-navigation-drawer>
+      </v-layout>
+    </div>
+
+    <!-- Budgetary Button and Panel Images -->
+    <div id="grid">
+      <div style="border: 2px solid lightgrey; border-radius: 2px; height: 100%">
+        <h2>Panel Solutions</h2>
+        <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
+          <h4>{{solution.name}}</h4>
+          <div class="item" v-for="panel in solution.panels" :key="panel.size">
+            <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}">
+              <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6">
+                {{panel.name}}
+              </v-btn>
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+      <div class="panelDisplay">
+        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'sub'"/>
+      </div>
+      <div class="panelDisplay">
+        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
+      </div>
+
+      <div>
+        <v-btn size="x-large" @click="laborDrawer = !laborDrawer" block elevation="1" style="border: 1px solid #d3dae6; max-height: 50px">Labor</v-btn>
+
+        <h3>Components (Add)</h3>
+        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 100%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
+          <div v-for="component in panelComponents" :key="component.id" style="margin: 15px 0">
+            <v-btn large v-if="component.panel === calcPanel.id" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6">
+              {{component.component.name}}
+            </v-btn>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div id="display">
+        <h3 style="text-align:left; align:left">Base Price</h3>
+        <table style="width: 200px">
+          <tr>
+            <td style="text-align:left; padding-right: 25px">Base Material</td>
+            <td style="text-align:right">{{displayPrice.baseMaterialSell}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left; padding-right: 25px">Base Labor</td>
+            <td style="text-align:right">{{displayPrice.baseLaborSell}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
+            <td style="text-align:right; font-weight: bold;">{{displayPrice.baseSell}}</td>
+          </tr>
+        </table>
+        <h3 v-if="displayPrice.optionSell !== '$0'" style="text-align:left; align:left">Option Adjustments</h3>
+        <table style="width: 200px">
+          <tr v-if="displayPrice.optionMaterialSell !== '$0'">
+            <td style="text-align:left; padding-right: 25px">Material</td>
+            <td style="text-align:right">{{displayPrice.optionMaterialSell}}</td>
+          </tr>
+          <tr v-if="displayPrice.optionLaborSell !== '$0'">
+            <td style="text-align:left; padding-right: 25px">Labor</td>
+            <td style="text-align:right">{{displayPrice.optionLaborSell}}</td>
+          </tr>
+          <tr v-if="displayPrice.optionSell !== '$0'">
+            <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
+            <td style="text-align:right; font-weight: bold;">{{displayPrice.optionSell}}</td>
+          </tr>
+        </table>
+        <table style="width: 200px">
+          <tr>
+            <td style="text-align:left; padding-right: 25px; font-weight: bold; font-size: 20px">Total</td>
+            <td style="text-align:right; font-weight: bold; font-size: 20px">{{displayPrice.sell}}</td>
+          </tr>
+        </table>
+
+        
+        <BudgetaryButton 
+          :panel="panel"
+          :panelOptions="panelOptions" 
+          :panelComponents="panelComponents" 
+          :panelLabors="panelLabors" 
+          :displayPrice="displayPrice"
+        />
+      </div> -->
+    </div>
+
+    <!-- Labor Drawer -->
+    <v-layout>
+        <v-navigation-drawer v-model="laborDrawer" temporary position="right" style="width: 33%">
+            <h1 style="margin: 15px 0">Labor</h1>
+            <div v-for="labor in panelLabors" :key="labor.id" style="margin: 15px 0">
+                <h3>type - {{labor.type.type}}</h3>
+                <div>base hours(base_bours) - {{labor.base_hours}}</div>
+                <div>base add(base_add) - {{labor.base_add}}</div>
+                <div>base option add(base_option_add) - {{labor.base_option_add}}</div>
+                <div>option add(option_add) - {{labor.option_add}}</div>
+                <div>total(total) - {{labor.total}}</div>
+            </div>
+        </v-navigation-drawer>
+    </v-layout>
+
   </div>
 </template>
 
@@ -121,16 +181,17 @@ import { baseIOCalc } from './HelperFunctions/base-io-calc.js'
 import { baseOptionCalc } from './HelperFunctions/base-option-calc.js'
 import { optionWatchAssign } from './HelperFunctions/option-controls.js'
 import { priceCalculations } from './HelperFunctions/price-calculations.js'
-// import  Maintenance  from '@/components/PanelBuilder/Maintenance'
+import  Maintenance  from '@/components/PanelBuilder/Maintenance'
 import PanelComponentDisplay from '@/components/PanelBuilder/PanelComponentDisplay'
-import BudgetaryButton from '@/components/PanelBuilder/BudgetaryButton'
+// import BudgetaryButton from '@/components/PanelBuilder/BudgetaryButton'
+import { apiurl } from '@/drf/drfapi'
 
 export default {
     components: {
         VueHorizontal,
-        // Maintenance,
+        Maintenance,
         PanelComponentDisplay,
-        BudgetaryButton,
+        // BudgetaryButton,
     },
     props: [
         'calcSolution',
@@ -141,7 +202,16 @@ export default {
         'calcPanelComponents',
         'calcPanelLabors',
     ],
-    setup (props) {
+    async setup (props) {
+
+        onMounted(() => {
+          window.addEventListener("resize", updateWidth)
+        })
+        onUnmounted(() => {
+          window.removeEventListener("resize", updateWidth)
+        })
+
+        const screenWidth = ref(window.innerWidth)
         const solution = ref(props.calcSolution)
         const panel = ref(props.calcPanel)
         const subpanelComp = ref(props.calcSubpanelComp)
@@ -151,6 +221,14 @@ export default {
         const panelComponents = ref(props.calcPanelComponents)
         const panelComponentLedgers = ref(props.calcPanelComponentLedgers)
         const panelLabors = ref(props.calcPanelLabors)
+        const solutionNavDrawer = ref(false)
+        const laborDrawer = ref(false)
+
+        const solutions = ref(null)
+        const addr = '/solution/'
+        const solutionsResponse = await fetch(apiurl.concat(addr))
+
+        solutions.value = await solutionsResponse.json();
 
         // Conditioning options
         // Adds 'selection' field to option array, as well as 'choiceArray' if the option type is 'CHOICE'
@@ -175,18 +253,18 @@ export default {
 
         const displayPrice = priceCalculations(panel.value, panelComponents.value, panelLabors.value, 2)
 
-        const screenWidth = ref(window.innerWidth)
-
         const updateWidth = () => {
           screenWidth.value = window.innerWidth
         }
 
-        onMounted(() => {
-          window.addEventListener("resize", updateWidth)
-        })
-        onUnmounted(() => {
-          window.removeEventListener("resize", updateWidth)
-        })
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function reloadPage() {
+          await sleep(100)
+          window.location.reload()
+        }
 
         return {
             solution,
@@ -199,7 +277,11 @@ export default {
             panelComponentLedgers,
             panelLabors,
             displayPrice,
-            screenWidth
+            screenWidth,
+            solutionNavDrawer,
+            solutions,
+            laborDrawer,
+            reloadPage
         }
     }
 }
@@ -210,15 +292,13 @@ section {
   padding: 16px 24px;
   background: #f5f5f5;
 }
-</style>
 
-<!-- Content Design -->
-<style scoped>
+/* Content Design */
 .card {
   margin: 3px;
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid #e2e8f0;
+  border: 1px solid lightgrey;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -240,10 +320,11 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%
 }
 
 .brand {
-  display: flex;
+  display: inline;
   align-items: center;
   color: #333333;
 }
@@ -370,7 +451,7 @@ section {
 {
   #grid {
     display: grid;
-    grid-template-columns: 7fr 7fr 4fr 5fr;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
   }
 }
 
@@ -385,8 +466,22 @@ section {
 @media (max-width: 950px)
 {
   #grid {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: block;
+    
+  }
+}
+
+@media (max-width: 700px) {
+  .panelDisplay {
+    transform: scale(0.7);
+    transform-origin: center top;
+  }
+}
+
+@media (max-width: 450px) {
+  .panelDisplay {
+    transform: scale(0.5);
+    transform-origin: center top;
   }
 }
 </style>

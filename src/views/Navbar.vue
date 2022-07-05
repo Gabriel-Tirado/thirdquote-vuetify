@@ -6,18 +6,12 @@
           <v-img src="@/assets/iiiqio.png" height="auto" width="auto" cover/>
         </router-link>
       </div>
-      <template v-if="loggedIn">
-        <div style="margin: auto 10px"><v-btn size="large" @click="coreDrawer=true" >Panel Solutions</v-btn></div>
-        <div></div>
-        <!-- <div><v-btn @click="advDrawer = true">Advanced Controls</v-btn></div> -->
-        <div style="margin: 10px 0"><v-btn @click="authDrawer = true" style="float: right; margin: 10px" height="50px"><v-avatar><v-img :src="auth.user.photoURL"/></v-avatar></v-btn></div>
-      </template>
-      <template v-else>
-        <div></div>
-        <div></div>
-        <div style="margin: 10px 0"><v-btn @click="authDrawer = true" style="float: right; margin: 10px" height="50px"><v-avatar /></v-btn></div>
-      </template>
-      
+
+      <div style="margin: auto 10px"><v-btn size="large" @click="coreDrawer=true" >Panel Solutions</v-btn></div>
+      <div></div>
+      <div></div>
+      <!-- <div><v-btn @click="advDrawer = true">Advanced Controls</v-btn></div> -->
+      <!-- <div style="margin: 10px 0"><v-btn @click="authDrawer = true" style="float: right; margin: 10px" height="50px"><v-avatar><v-img :src="auth.user.photoURL"/></v-avatar></v-btn></div> -->
     </div>
 
     <v-layout>

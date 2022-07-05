@@ -15,8 +15,8 @@
 <script>
 import { ref } from 'vue'
 import Control from '@/components/PanelBuilder/PanelBuilderControl'
-import auth from '../../firebase/auth'
-import { getUser } from '../../firebase/db'
+// import auth from '../../firebase/auth'
+// import { getUser } from '../../firebase/db'
 import { apiurl } from '../../drf/drfapi'
 
 export default {
@@ -118,7 +118,7 @@ export default {
         labors.value = await laborsResponse
         // Jon Snow says all data should be brought in at this point. Therefore, utilizing object data should be copacetic.
     
-        auth.profile = await getUser(auth.user.email)
+        // auth.profile = await getUser(auth.user.email)
         
         
         return {solution,

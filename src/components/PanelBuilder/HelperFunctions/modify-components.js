@@ -27,22 +27,18 @@ export function modifyPanelComponents(panelComponents) {
 
         panelComponent.max_exceed = computed(()=>{
             if (panelComponent.total > panelComponent.max) {
-                console.log('max_exceeded')
                 return true
             }
             else {
-                console.log('not exceeded')
                 return false
             }
         })
 
         panelComponent.min_exceed = computed(()=>{
             if (panelComponent.total < panelComponent.min) {
-                console.log('min_exceeded')
                 return true
             }
             else {
-                console.log('not exceeded')
                 return false
             }
         })

@@ -1,7 +1,7 @@
 <template>
   
   <div v-if="error">{{error}}</div>
-  <div v-if="auth.loggedIn" class="navigation">
+  <div class="navigation">
     <Suspense>
     <template #default>
       <Navbar :user="auth.user" :loggedIn="auth.loggedIn"/>
@@ -26,7 +26,7 @@
 <script>
 import Navbar from './views/Navbar.vue'
 import firebase from './firebase/firebase'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import { onBeforeMount } from 'vue'
 import auth from './firebase/auth'
 
@@ -36,12 +36,12 @@ export default {
   },
 
   setup() {
-    const router = useRouter()
+    // const router = useRouter()
     
     onBeforeMount(() => {
       firebase.auth().onAuthStateChanged((currentUser) => {
         if (!currentUser) {
-          if (window.location.hostname !== 'localhost') {router.replace('/')}
+          // if (window.location.hostname !== 'localhost') {router.replace('/')}
           auth.user = {}
           auth.loggedIn = false
           auth.internal = false
@@ -54,7 +54,7 @@ export default {
             {auth.internal = true}
           if (auth.user.email.split("@")[1] === "mc-mc.com")
             {auth.partner = true}
-          if (window.location.hostname !== 'localhost') {router.replace('/Home')}
+          // if (window.location.hostname !== 'localhost') {router.replace('/Home')}
         }
       })
     })
