@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Maintenance :panel="panel" :panelLabors="panelLabors" :panelComponents="panelComponents" :panelIOs="panelIOs"/>
+    <!-- <Maintenance :panel="panel" :panelLabors="panelLabors" :panelComponents="panelComponents" :panelIOs="panelIOs"/> -->
     
     <!-- PC/Large Tablet panel control options -->
     <vue-horizontal class="horizontal" v-if="screenWidth > 700">
@@ -96,7 +96,7 @@
         <h3>Components (Add)</h3>
         <div style="border: 2px solid lightgrey; border-radius: 2px; width: 100%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
           <div v-for="component in panelComponents" :key="component.id" style="margin: 15px 0">
-            <v-btn large v-if="component.panel === calcPanel.id" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6">
+            <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6">
               {{component.component.name}}
             </v-btn>
           </div>
@@ -154,10 +154,10 @@
 
     <!-- Labor Drawer -->
     <v-layout>
-        <v-navigation-drawer v-model="laborDrawer" temporary position="right" style="width: 33%">
+        <v-navigation-drawer v-model="laborDrawer" touchless temporary position="right" style="width: 33%">
             <h1 style="margin: 15px 0">Labor</h1>
             <div v-for="labor in panelLabors" :key="labor.id" style="margin: 15px 0">
-                <h3>type - {{labor.type.type}}</h3>
+                <h3>{{labor.type.type}}</h3>
                 <div>base hours(base_bours) - {{labor.base_hours}}</div>
                 <div>base add(base_add) - {{labor.base_add}}</div>
                 <div>base option add(base_option_add) - {{labor.base_option_add}}</div>
@@ -165,6 +165,32 @@
                 <div>total(total) - {{labor.total}}</div>
             </div>
         </v-navigation-drawer>
+    </v-layout>
+
+    <!-- Component Drawer -->
+    <v-layout>
+      <v-navigation-drawer v-model="componentDrawer" touchless temporary position="right" style="width: 33%">
+        <h1 style="margin: 15px 0">Components</h1>
+        <div v-for="component in panelComponents" :key="component.id">
+          <div v-if="compName == component.component.name">
+            <h3 style="margin: 10px">{{component.component.name}}</h3>
+            <div>Cost: {{component.component.cost}}</div>
+            <div>Sell: {{component.component.sell}}</div>
+            <div>base quantity: {{component.base_quantity}}</div>
+            <div>base add: {{component.base_add}}</div>
+            <div>base option add: {{component.base_option_add}}</div>
+            <div>option add: {{component.option_add}}</div>
+            <div>total: {{component.total}}</div>
+            <div v-for="row in component.component_rows" :key="row.id">
+              <div class="borderLine"></div>
+              <div>row num: {{row.row_num}}</div>
+              <div>row min: {{row.min}}</div>
+              <div>row max: {{row.max}}</div>
+              <div>current: {{row.current}}</div>
+            </div>
+          </div> 
+        </div>
+      </v-navigation-drawer>
     </v-layout>
 
   </div>
@@ -181,7 +207,7 @@ import { baseIOCalc } from './HelperFunctions/base-io-calc.js'
 import { baseOptionCalc } from './HelperFunctions/base-option-calc.js'
 import { optionWatchAssign } from './HelperFunctions/option-controls.js'
 import { priceCalculations } from './HelperFunctions/price-calculations.js'
-import  Maintenance  from '@/components/PanelBuilder/Maintenance'
+// import  Maintenance  from '@/components/PanelBuilder/Maintenance'
 import PanelComponentDisplay from '@/components/PanelBuilder/PanelComponentDisplay'
 // import BudgetaryButton from '@/components/PanelBuilder/BudgetaryButton'
 import { apiurl } from '@/drf/drfapi'
@@ -189,7 +215,7 @@ import { apiurl } from '@/drf/drfapi'
 export default {
     components: {
         VueHorizontal,
-        Maintenance,
+        // Maintenance,
         PanelComponentDisplay,
         // BudgetaryButton,
     },
@@ -223,6 +249,8 @@ export default {
         const panelLabors = ref(props.calcPanelLabors)
         const solutionNavDrawer = ref(false)
         const laborDrawer = ref(false)
+        const componentDrawer = ref(false)
+        const compName = ref('')
 
         const solutions = ref(null)
         const addr = '/solution/'
@@ -281,6 +309,8 @@ export default {
             solutionNavDrawer,
             solutions,
             laborDrawer,
+            componentDrawer,
+            compName,
             reloadPage
         }
     }
@@ -321,6 +351,12 @@ section {
   flex-direction: column;
   justify-content: space-between;
   width: 100%
+}
+
+.borderLine {
+  border-bottom: 1px solid #d3dae6;
+  width: 50%;
+  margin: 10px auto;
 }
 
 .brand {
