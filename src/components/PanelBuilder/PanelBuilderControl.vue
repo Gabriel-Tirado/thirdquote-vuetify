@@ -74,8 +74,8 @@
         <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
           <h4>{{solution.name}}</h4>
           <div class="item" v-for="panel in solution.panels" :key="panel.size">
-            <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}">
-              <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6">
+            <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
+              <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
                 {{panel.name}}
               </v-btn>
             </router-link>
@@ -93,12 +93,15 @@
       <div>
         <v-btn size="x-large" @click="laborDrawer = !laborDrawer" block elevation="1" style="border: 1px solid #d3dae6; max-height: 50px">Labor</v-btn>
 
-        <h3>Components (Add)</h3>
+        <h3>Components</h3>
         <div style="border: 2px solid lightgrey; border-radius: 2px; width: 100%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
           <div v-for="component in panelComponents" :key="component.id" style="margin: 15px 0">
-            <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6">
-              {{component.component.name}}
-            </v-btn>
+            <div v-if="component.component.image_horizontal !== ''">
+              <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
+                <h4>{{component.component.manufacturer}} - {{component.component.model_id}}</h4>
+                <div>{{component.component.name}}</div>
+              </v-btn>
+            </div>
           </div>
         </div>
       </div>
@@ -181,12 +184,19 @@
             <div>base option add: {{component.base_option_add}}</div>
             <div>option add: {{component.option_add}}</div>
             <div>total: {{component.total}}</div>
+            <div>{{component.option_add}}</div>
+            <v-btn @click="component.option_add += 1">test</v-btn>
+
             <div v-for="row in component.component_rows" :key="row.id">
               <div class="borderLine"></div>
-              <div>row num: {{row.row_num}}</div>
-              <div>row min: {{row.min}}</div>
-              <div>row max: {{row.max}}</div>
-              <div>current: {{row.current}}</div>
+              <h4>row num: {{row.row_num}}</h4>
+
+              <v-text-field type="number" v-model="row.min" label="row min" style="margin: 0 40%"></v-text-field>
+              <v-text-field type="number" v-model="row.max" label="row max" style="margin: 0 40%"></v-text-field>
+              <v-text-field type="number" v-model="row.current" label="row current" style="margin: 0 40%"></v-text-field>
+
+              <v-text-field type="number" v-model="row.left" label="row left" style="margin: 0 40%"></v-text-field>
+              <v-text-field type="number" v-model="row.top" label="row top" style="margin: 0 40%"></v-text-field>
             </div>
           </div> 
         </div>
