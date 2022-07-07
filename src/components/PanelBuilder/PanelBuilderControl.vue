@@ -44,7 +44,7 @@
     <!-- Panel Control Options NavBar -->
     <div class="item" v-for="section in panel.sections" :key="section.order">
       <v-layout>
-        <v-navigation-drawer v-model="section.drawer" touchless :position="(screenWidth > 700 && 'right') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 50vh; width: 100vw; padding: 10px'))">
+        <v-navigation-drawer v-model="section.drawer" touchless :position="(screenWidth > 700 && 'left') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 50vh; width: 100vw; padding: 10px'))">
           <h3>{{section.name}}</h3>
           <div id="options">
             <div id="buffer"></div>
@@ -69,33 +69,26 @@
 
     <!-- Budgetary Button and Panel Images -->
     <div id="grid">
-      <div style="border: 2px solid lightgrey; border-radius: 2px; height: 100%">
+      <div>
         <h2>Panel Solutions</h2>
-        <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
-          <h4>{{solution.name}}</h4>
-          <div class="item" v-for="panel in solution.panels" :key="panel.size">
-            <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
-              <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
-                {{panel.name}}
-              </v-btn>
-            </router-link>
+        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; padding: 10px 0">
+          <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
+            <h4>{{solution.name}}</h4>
+            <div class="item" v-for="panel in solution.panels" :key="panel.size">
+              <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
+                <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
+                  {{panel.name}}
+                </v-btn>
+              </router-link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="panelDisplay">
-        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'sub'"/>
-      </div>
-      <div class="panelDisplay">
-        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
-      </div>
-
-      <div>
-        <v-btn size="x-large" @click="laborDrawer = !laborDrawer" block elevation="1" style="border: 1px solid #d3dae6; max-height: 50px">Labor</v-btn>
-
-        <h3>Components</h3>
-        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 100%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
-          <div v-for="component in panelComponents" :key="component.id" style="margin: 15px 0">
+        <v-btn size="x-large" @click="laborDrawer = !laborDrawer" elevation="1" style="border: 1px solid #d3dae6; max-height: 50px; width: 95%; margin: 30px 0">Labor</v-btn>
+        
+        <h2>Components</h2>
+        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
+          <div v-for="component in sortItems(panelComponents)" :key="component.id" style="margin: 15px 0">
             <div v-if="component.component.image_horizontal !== ''">
               <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
                 <h4>{{component.component.manufacturer}} - {{component.component.model_id}}</h4>
@@ -104,6 +97,14 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="panelDisplay">
+        <h2 style="text-decoration: underline">SubPanel</h2>
+        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'sub'"/>
+
+        <h2 style="text-decoration: underline">Enclosure</h2>
+        <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
       </div>
 
       <!-- <div id="display">
@@ -172,8 +173,8 @@
 
     <!-- Component Drawer -->
     <v-layout>
-      <v-navigation-drawer v-model="componentDrawer" touchless temporary position="right" style="width: 33%">
-        <h1 style="margin: 15px 0">Components</h1>
+      <v-navigation-drawer v-model="componentDrawer" touchless temporary position="left" style="width: 33%">
+        <h1 style="margin: 15px 0">Component</h1>
         <div v-for="component in panelComponents" :key="component.id">
           <div v-if="compName == component.component.name">
             <h3 style="margin: 10px">{{component.component.name}}</h3>
@@ -304,6 +305,10 @@ export default {
           window.location.reload()
         }
 
+        const sortItems = (_items) => {
+           return _items.sort((a, b) => a.component.id - b.component.id)
+        }
+
         return {
             solution,
             panel,
@@ -321,7 +326,8 @@ export default {
             laborDrawer,
             componentDrawer,
             compName,
-            reloadPage
+            reloadPage,
+            sortItems
         }
     }
 }
@@ -493,27 +499,15 @@ section {
   padding: 5px;
 }
 
-@media (min-width: 1500px)
-{
-  #grid {
-    display: grid;
-    grid-template-columns: 2fr 2fr 2fr 2fr;
-  }
-}
-
-@media (max-width: 1500px)
-{
-  #grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
+#grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
 }
 
 @media (max-width: 950px)
 {
   #grid {
     display: block;
-    
   }
 }
 
