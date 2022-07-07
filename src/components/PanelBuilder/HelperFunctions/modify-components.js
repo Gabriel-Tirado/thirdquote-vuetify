@@ -18,7 +18,7 @@ export function modifyPanelComponents(panelComponents) {
         panelComponent.max = 0
         panelComponent.min = 0
         panelComponent.total = computed(() => {
-            // if (development.value && panelComponent.autofill) {return panelComponent.max}
+            if (development.value && panelComponent.autofill) {return panelComponent.max}
             return panelComponent.base_quantity + 
                    panelComponent.base_add + 
                    panelComponent.base_option_add + 
@@ -88,18 +88,21 @@ export function modifyPanelComponents(panelComponents) {
                     }
                 }
                 row.max += row.max_comp
-                // row.current = 0
-                row.current = computed(()=>{
-                    let num = 0
-                    if (panelComponent.total <= row.min) {
-                        num = 0
-                    } else if (panelComponent.total > row.min && panelComponent.total < row.max) {
-                        num = panelComponent.total - row.min
-                    } else if (panelComponent.total >= row.max) {
-                        num = row.max_comp
-                    }
-                    return num
+                
+                row.current = computed(() => {
+                    return row.max - row.min
                 })
+                // row.current = computed(()=>{
+                //     let num = 0
+                //     if (panelComponent.total <= row.min) {
+                //         num = 0
+                //     } else if (panelComponent.total > row.min && panelComponent.total < row.max) {
+                //         num = panelComponent.total - row.min
+                //     } else if (panelComponent.total >= row.max) {
+                //         num = row.max_comp
+                //     }
+                //     return num
+                // })
             }
         }
     }
