@@ -1,21 +1,21 @@
 <template>
-  <HelloWorld/>
+  <!-- <HelloWorld v-if="screenWidth > 600" msg=""/> -->
   <div class="table-list">
-    <div style="grid-column: 2">
+    <div :style="screenWidth > 500 && 'grid-column: 2'">
       <v-table fixed-header height="auto" density="compact" style="border: 1px solid #ededed; border-radius: 5px;">
         <thead>
           <tr>
             <th class="text-center" style="background-color: #ededed">
-              <h2>Panel Types</h2>
+              <h2>Solution Types</h2>
             </th>
           </tr>
         </thead>
-        <tbody class="horizontal">
+        <tbody>
           <tr class="item" v-for="panel in solution.panels" :key="panel.size">
             <div v-if="panel.public || development">
               <router-link :to="{name: 'CorePanel', params: { url: url, panel_url: panel.panel_url }}" style="text-decoration: none">  
                   <div class="grid-list">
-                    <div class="image" :style="{background: `url(${panel.ui_image})`}"></div>
+                    <div v-if="screenWidth >= 1366" class="image" :style="{background: `url(${panel.ui_image})`}"></div>
                     <!-- <v-img :src="panel.ui_image"></v-img> -->
                       <div class="brand">
                         <div class="name">{{ panel.name }}</div>
@@ -32,19 +32,30 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { apiurl } from '../drf/drfapi.js'
-import HelloWorld from '@/components/HelloWorld.vue'
+// import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
     components: {
-        HelloWorld,
+        // HelloWorld,
     },
     props: [
         'url',
     ],
     async setup (props){
-    
+
+      const screenWidth = ref(window.innerWidth);
+      const updateWidth = () => {
+        screenWidth.value = window.innerWidth
+      }
+      onMounted(() => {
+        window.addEventListener("resize", updateWidth)
+      })
+      onUnmounted(() => {
+        window.removeEventListener("resize", updateWidth)
+      })
+
       const solutions = ref(null)
       const addr = '/solution/'
       const solutionsResponse = await fetch(apiurl.concat(addr))
@@ -55,7 +66,8 @@ export default {
       const solution = computed(()=> {
       return solutions.value.find(solution=>{return solution.url === props.url})
       })
-      return {solution, development}
+
+      return {solution, development, screenWidth}
     }
 
 }
@@ -69,8 +81,8 @@ section {
 }
 </style>
 
-<!-- Content Design -->
 <style scoped>
+/* Content Design */
 .card {
   margin: 3px;
   border-radius: 6px;
@@ -96,6 +108,7 @@ section {
 
 .brand {
   align-items: center;
+  margin: auto 0;
   color: #333333;
 }
 
@@ -107,7 +120,7 @@ section {
 
 .brand .name {
   margin-left: 4px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.5;
   margin: 15% 5%;
@@ -136,56 +149,87 @@ section {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
 }
-</style>
 
-<!-- Parent CSS (Container) -->
-<style scoped>
-.header {
-  margin-bottom: 16px;
-}
-
+/* Parent CSS (Container) */
 main {
   padding: 24px;
 }
-
 @media (min-width: 768px) {
   main {
     padding: 48px;
   }
 }
-</style>
 
-<!-- Responsive Breakpoints -->
-<style scoped>
-.horizontal {
-  --count: 1;
-  --gap: 16px;
-  --margin: 24px;
-}
+/* Responsive Table */
 
-@media (min-width: 640px) {
-  .horizontal {
-    --count: 2;
+@media (max-width: 1366px) {
+  .grid-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (min-width: 768px) {
-  .horizontal {
-    --count: 3;
-    --margin: 0;
+@media (max-width: 999px) {
+  .table-list {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    padding: 20px;
+    row-gap: 50px;
+  }
+
+  .brand .name {
+    margin-left: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 15% 5%;
   }
 }
 
-@media (min-width: 1024px) {
-  .horizontal {
-    --count: 4;
+@media (max-width: 750px) {
+  .table-list {
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    padding: 20px;
+    row-gap: 50px;
   }
 }
 
-@media (min-width: 1280px) {
-  .horizontal {
-    --gap: 24px;
-    --count: 6;
+@media (max-width: 500px) {
+  .grid-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 10% 5%;
+  }
+  .table-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 20px;
+    row-gap: 50px;
+  }
+  .brand .name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: underline;
+    margin: 0;
+  }
+  .title {
+    color: #333333;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1000px)
+{
+  .table-list {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    padding: 20px;
+    row-gap: 50px;
   }
 }
 </style>

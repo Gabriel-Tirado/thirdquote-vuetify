@@ -88,7 +88,7 @@ export function modifyPanelComponents(panelComponents) {
                     }
                 }
                 row.max += row.max_comp
-                
+
                 row.current = computed(() => {
                     return row.max - row.min
                 })

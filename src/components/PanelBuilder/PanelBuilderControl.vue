@@ -21,7 +21,7 @@
     </vue-horizontal>
 
     <!-- Mobile Panel Control Options -->
-    <v-btn v-if="screenWidth < 700" size="large" elevation="1" style="border: 1px solid lightgrey; width: 70vw; margin: 5% 0;" @click="solutionNavDrawer = !solutionNavDrawer">Panel Options</v-btn>
+    <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; width: 75vw; margin: 5% 0 5px;" @click="solutionNavDrawer = !solutionNavDrawer">Panel Options</v-btn>
     <v-layout v-if="screenWidth < 700">
       <v-navigation-drawer v-model="solutionNavDrawer" touchless position="top" style="max-height: 40%; padding: 10px">
         <div class="item" style="margin: 5px 0;" v-for="section in panel.sections" :key="section.order">
@@ -68,10 +68,11 @@
     </div>
 
     <!-- Budgetary Button and Panel Images -->
-    <div id="grid">
-      <div>
-        <h2>Panel Solutions</h2>
-        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; padding: 10px 0">
+    <!-- If Mobile/Small Screen -->
+      <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="panelNavDrawer = !panelNavDrawer">Panel Solutions</v-btn>
+      <v-layout v-if="screenWidth < 700">
+        <v-navigation-drawer v-model="panelNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
+          <h2>Panel Solutions</h2>
           <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
             <h4>{{solution.name}}</h4>
             <div class="item" v-for="panel in solution.panels" :key="panel.size">
@@ -81,13 +82,48 @@
                 </v-btn>
               </router-link>
             </div>
+            <div class="borderLine" style="width: 70%"></div>
+          </div>
+        </v-navigation-drawer>
+      </v-layout>
+
+      <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="compNavDrawer = !compNavDrawer">Components</v-btn>
+      <v-layout v-if="screenWidth < 700">
+        <v-navigation-drawer v-model="compNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
+          <h2>Components</h2>
+          <div v-for="component in sortItems(panelComponents)" :key="component.id" style="margin: 15px 0">
+            <div v-if="component.component.image_horizontal !== ''">
+              <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
+                <h4>{{component.component.manufacturer}} - {{component.component.model_id}}</h4>
+                <div>{{component.component.name}}</div>
+              </v-btn>
+            </div>
+          </div>
+        </v-navigation-drawer>
+      </v-layout>
+
+    <!-- If PC/Large Screen + Panel Images -->
+    <div id="grid">
+      <div>
+        <h2 v-if="screenWidth > 700">Panel Solutions</h2>
+        <div v-if="screenWidth > 700" style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; height: 40vh; overflow-x: hidden; overflow-y: scroll; padding: 10px 0">
+          <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
+            <h4>{{solution.name}}</h4>
+            <div class="item" v-for="panel in solution.panels" :key="panel.size">
+              <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
+                <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
+                  {{panel.name}}
+                </v-btn>
+              </router-link>
+            </div>
+            <div class="borderLine" style="width: 90%;"></div>
           </div>
         </div>
 
-        <v-btn size="x-large" @click="laborDrawer = !laborDrawer" elevation="1" style="border: 1px solid #d3dae6; max-height: 50px; width: 95%; margin: 30px 0">Labor</v-btn>
+        <v-btn size="x-large" @click="laborDrawer = !laborDrawer" elevation="1" id="laborButton" :style="(screenWidth <= 700 && 'width: 75%;') || (screenWidth > 700 && 'width: 95%;')">Labor</v-btn>
         
-        <h2>Components</h2>
-        <div style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
+        <h2 v-if="screenWidth > 700">Components</h2>
+        <div v-if="screenWidth > 700" style="border: 2px solid lightgrey; border-radius: 2px; width: 95%; height: 50vh; overflow-x: hidden; overflow-y: scroll;">
           <div v-for="component in sortItems(panelComponents)" :key="component.id" style="margin: 15px 0">
             <div v-if="component.component.image_horizontal !== ''">
               <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
@@ -158,46 +194,44 @@
 
     <!-- Labor Drawer -->
     <v-layout>
-        <v-navigation-drawer v-model="laborDrawer" touchless temporary position="right" style="width: 33%">
+        <v-navigation-drawer v-model="laborDrawer" touchless :position="(screenWidth > 700 && 'left') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 40vh; width: 100vw; padding: 10px'))">
             <h1 style="margin: 15px 0">Labor</h1>
             <div v-for="labor in panelLabors" :key="labor.id" style="margin: 15px 0">
                 <h3>{{labor.type.type}}</h3>
-                <div>base hours(base_bours) - {{labor.base_hours}}</div>
-                <div>base add(base_add) - {{labor.base_add}}</div>
-                <div>base option add(base_option_add) - {{labor.base_option_add}}</div>
-                <div>option add(option_add) - {{labor.option_add}}</div>
-                <div>total(total) - {{labor.total}}</div>
+                <div>Base Hours: {{labor.base_hours}}</div>
+                <div>Base Add: {{labor.base_add}}</div>
+                <div>Base Option Add: {{labor.base_option_add}}</div>
+                <div>Option Add: {{labor.option_add}}</div>
+                <div>Total: {{labor.total}}</div>
             </div>
         </v-navigation-drawer>
     </v-layout>
 
     <!-- Component Drawer -->
     <v-layout>
-      <v-navigation-drawer v-model="componentDrawer" touchless temporary position="left" style="width: 33%">
+      <v-navigation-drawer v-model="componentDrawer" touchless :position="(screenWidth > 700 && 'left') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 40vh; width: 100vw; padding: 10px'))">
         <h1 style="margin: 15px 0">Component</h1>
         <div v-for="component in panelComponents" :key="component.id">
           <div v-if="compName == component.component.name">
             <h3 style="margin: 10px">{{component.component.name}}</h3>
             <div>Cost: {{component.component.cost}}</div>
             <div>Sell: {{component.component.sell}}</div>
-            <div>base quantity: {{component.base_quantity}}</div>
-            <div>base add: {{component.base_add}}</div>
-            <div>base option add: {{component.base_option_add}}</div>
-            <div>option add: {{component.option_add}}</div>
-            <div>total: {{component.total}}</div>
-            <div>{{component.option_add}}</div>
-            <v-btn @click="component.option_add += 1">test</v-btn>
+            <div>Base Quantity: {{component.base_quantity}}</div>
+            <div>Base Add: {{component.base_add}}</div>
+            <div>Base Option Add: {{component.base_option_add}}</div>
+            <div>Option Add: {{component.option_add}}</div>
+            <div>Total: {{component.total}}</div>
 
             <div v-for="row in component.component_rows" :key="row.id">
               <div class="borderLine"></div>
-              <h4>row num: {{row.row_num}}</h4>
+              <h4 style="margin: 10px 0">Row Num: {{row.row_num}}</h4>
 
-              <v-text-field type="number" v-model="row.min" label="row min" style="margin: 0 40%"></v-text-field>
-              <v-text-field type="number" v-model="row.max" label="row max" style="margin: 0 40%"></v-text-field>
-              <v-text-field type="number" v-model="row.current" label="row current" style="margin: 0 40%"></v-text-field>
+              <v-text-field type="number" variant="outlined" shaped="true" hide-details="auto" v-model="row.min" label="Row Min" style="margin: 15px 40%"></v-text-field>
+              <v-text-field type="number" variant="outlined" hide-details="auto" v-model="row.max" label="Row Max" style="margin: 15px 40%;"></v-text-field>
+              <v-text-field type="number" variant="outlined" hide-details="auto" v-model="row.current" label="Row Current" style="margin: 15px 40%"></v-text-field>
 
-              <v-text-field type="number" v-model="row.left" label="row left" style="margin: 0 40%"></v-text-field>
-              <v-text-field type="number" v-model="row.top" label="row top" style="margin: 0 40%"></v-text-field>
+              <v-text-field type="number" variant="outlined" hide-details="auto" v-model="row.left" label="Row Left" style="margin: 15px 40%"></v-text-field>
+              <v-text-field type="number" variant="outlined" hide-details="auto" v-model="row.top" label="Row Top" style="margin: 15px 40%"></v-text-field>
             </div>
           </div> 
         </div>
@@ -259,6 +293,8 @@ export default {
         const panelComponentLedgers = ref(props.calcPanelComponentLedgers)
         const panelLabors = ref(props.calcPanelLabors)
         const solutionNavDrawer = ref(false)
+        const panelNavDrawer = ref(false)
+        const compNavDrawer = ref(false)
         const laborDrawer = ref(false)
         const componentDrawer = ref(false)
         const compName = ref('')
@@ -326,6 +362,8 @@ export default {
             laborDrawer,
             componentDrawer,
             compName,
+            panelNavDrawer,
+            compNavDrawer,
             reloadPage,
             sortItems
         }
@@ -497,6 +535,12 @@ section {
 }
 #buffer > div {
   padding: 5px;
+}
+
+#laborButton {
+  border: 1px solid #d3dae6;
+  max-height: 50px;
+  margin: 30px 0;
 }
 
 #grid {
