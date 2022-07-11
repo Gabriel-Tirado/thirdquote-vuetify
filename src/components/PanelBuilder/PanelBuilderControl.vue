@@ -53,13 +53,11 @@
                 <div class="description">
                   <h4>{{option.description}}</h4>
                 </div>
-                <!-- <v-tooltip activator="parent" location="top" text="option.tooltip"> -->
                 <div>
                   <v-switch inset color="info" :label="option.name" v-if="option.type === 'BOOL'" v-model="option.selection" style="margin: 0 20% 0 25%;"/>
                   <v-text-field type="number" :label="option.name" v-if="option.type === 'QTY'" v-model="option.selection" :min="option.min_quantity" :max="option.max_quantity" style="margin: 0 30%"/>
                   <v-select dense="true" :label="option.name" v-if="option.type === 'CHOICE'" v-model="option.selection" :items="option.choiceArray" style="margin: 0 10%"/>
                 </div>
-                <!-- </v-tooltip> -->
               </div>
             </div>
           </div>
@@ -142,54 +140,6 @@
         <h2 style="text-decoration: underline">Enclosure</h2>
         <PanelComponentDisplay :panel="panel" :panelComponents="panelComponents" :type="'enc'"/>
       </div>
-
-      <!-- <div id="display">
-        <h3 style="text-align:left; align:left">Base Price</h3>
-        <table style="width: 200px">
-          <tr>
-            <td style="text-align:left; padding-right: 25px">Base Material</td>
-            <td style="text-align:right">{{displayPrice.baseMaterialSell}}</td>
-          </tr>
-          <tr>
-            <td style="text-align:left; padding-right: 25px">Base Labor</td>
-            <td style="text-align:right">{{displayPrice.baseLaborSell}}</td>
-          </tr>
-          <tr>
-            <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
-            <td style="text-align:right; font-weight: bold;">{{displayPrice.baseSell}}</td>
-          </tr>
-        </table>
-        <h3 v-if="displayPrice.optionSell !== '$0'" style="text-align:left; align:left">Option Adjustments</h3>
-        <table style="width: 200px">
-          <tr v-if="displayPrice.optionMaterialSell !== '$0'">
-            <td style="text-align:left; padding-right: 25px">Material</td>
-            <td style="text-align:right">{{displayPrice.optionMaterialSell}}</td>
-          </tr>
-          <tr v-if="displayPrice.optionLaborSell !== '$0'">
-            <td style="text-align:left; padding-right: 25px">Labor</td>
-            <td style="text-align:right">{{displayPrice.optionLaborSell}}</td>
-          </tr>
-          <tr v-if="displayPrice.optionSell !== '$0'">
-            <td style="text-align:left; padding-right: 25px; font-weight: bold;">Subtotal</td>
-            <td style="text-align:right; font-weight: bold;">{{displayPrice.optionSell}}</td>
-          </tr>
-        </table>
-        <table style="width: 200px">
-          <tr>
-            <td style="text-align:left; padding-right: 25px; font-weight: bold; font-size: 20px">Total</td>
-            <td style="text-align:right; font-weight: bold; font-size: 20px">{{displayPrice.sell}}</td>
-          </tr>
-        </table>
-
-        
-        <BudgetaryButton 
-          :panel="panel"
-          :panelOptions="panelOptions" 
-          :panelComponents="panelComponents" 
-          :panelLabors="panelLabors" 
-          :displayPrice="displayPrice"
-        />
-      </div> -->
     </div>
 
     <!-- Labor Drawer -->
@@ -540,7 +490,7 @@ section {
 #laborButton {
   border: 1px solid #d3dae6;
   max-height: 50px;
-  margin: 30px 0;
+  margin: 15px 0 5px !important;
 }
 
 #grid {
