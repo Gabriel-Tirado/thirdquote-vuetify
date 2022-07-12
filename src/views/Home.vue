@@ -16,7 +16,7 @@ export default {
     HelloWorld
   },
   setup() {
-      return { auth }
+    return { auth }
   }
 }
 </script>

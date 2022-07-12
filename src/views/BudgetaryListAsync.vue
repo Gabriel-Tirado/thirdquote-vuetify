@@ -43,27 +43,27 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import { reactive } from '@vue/reactivity'
 
 export default {
-    components: {
-        HelloWorld,
-    },
-    async setup (){
-        const budgetaryList = await getBudgetaryList(auth.user.email)
-        const sortedBudgetary = reactive({})
-        for (let i = 0; i < budgetaryList.length; i++) {
-          let budgetary = budgetaryList[i]
-          if (Object.prototype.hasOwnProperty.call(sortedBudgetary, budgetary.panel.name)) {
-            sortedBudgetary[budgetary.panel.name].push(budgetary)
-          } else {
-            sortedBudgetary[budgetary.panel.name] = [budgetary,]
-          }
-        }
-
-        const sortItems = (_items) => {
-          return _items.sort((a, b) => b.projectNum - a.projectNum)
-        }
-
-        return{ sortedBudgetary, sortItems }
+  components: {
+    HelloWorld,
+  },
+  async setup() {
+    const budgetaryList = await getBudgetaryList(auth.user.email)
+    const sortedBudgetary = reactive({})
+    for (let i = 0; i < budgetaryList.length; i++) {
+      let budgetary = budgetaryList[i]
+      if (Object.prototype.hasOwnProperty.call(sortedBudgetary, budgetary.panel.name)) {
+        sortedBudgetary[budgetary.panel.name].push(budgetary)
+      } else {
+        sortedBudgetary[budgetary.panel.name] = [budgetary,]
+      }
     }
+
+    const sortItems = (_items) => {
+      return _items.sort((a, b) => b.projectNum - a.projectNum)
+    }
+
+    return{ sortedBudgetary, sortItems }
+  }
 }
 </script>
 
@@ -74,66 +74,34 @@ section {
 }
 </style>
 
-<!-- Content Design -->
 <style scoped>
-.card {
-  margin: 3px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  height: 100%;
-  min-width: 100px;
-  display: flex;
-  flex-direction: column;
-  max-width: 200px;
+/* Parent CSS (Container) */
+main {
+  padding: 24px;
+}
+@media (min-width: 768px) {
+  main {
+    padding: 48px;
+  }
 }
 
-.image {
-  background-position: center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  padding-top: 50%;
-}
-
+/* Content Design */
 .content {
   padding: 5px auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   text-align: left;
 }
-
 .brand {
   align-items: center;
   color: #333333;
 }
-
-.brand .icon {
-  flex-shrink: 0;
-  height: 20px;
-  width: 20px;
-  fill: currentColor;
-}
-
-.brand .name {
-  margin-left: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
 .title {
   color: #333333;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.6;
 }
-
-.date {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
 .table-list {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -141,56 +109,28 @@ section {
   row-gap: 50px;
 }
 
-.headerNames { 
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-</style>
-
-<!-- Parent CSS (Container) -->
-<style scoped>
-.header {
-  margin-bottom: 16px;
-}
-
-main {
-  padding: 24px;
-}
-
-@media (min-width: 768px) {
-  main {
-    padding: 48px;
-  }
-}
-</style>
-
-<!-- Responsive Breakpoints -->
-<style scoped>
+/* Responsive Breakpoints */
 .horizontal {
   --count: 1;
   --gap: 16px;
   --margin: 24px;
 }
-
 @media (min-width: 640px) {
   .horizontal {
     --count: 2;
   }
 }
-
 @media (min-width: 768px) {
   .horizontal {
     --count: 3;
     --margin: 0;
   }
 }
-
 @media (min-width: 1024px) {
   .horizontal {
     --count: 4;
   }
 }
-
 @media (min-width: 1280px) {
   .horizontal {
     --gap: 24px;

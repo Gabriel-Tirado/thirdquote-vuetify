@@ -285,13 +285,17 @@ export default {
 </script>
 
 <style scoped lang="less">
-#grid {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+#banner {
+    background-color: #244061;
+    color: white;
 }
 #buttonGrid {
     display: grid;
     grid-template-columns: 5fr 1fr 1fr;
+}
+#fixedDetails {
+    position: fixed;
+    min-width: 300px;
 }
 #frame {
     margin-top: 50px;
@@ -306,16 +310,10 @@ export default {
         box-shadow: 0 0 0 1px rgba(50, 50, 93, 0.05),
         0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
     }
-};
-#sideFrame {
-    margin-top: 50px;
-    margin-right: 10vw;
-    min-width: 300px;
-   
-};
-#fixedDetails {
-    position: fixed;
-    min-width: 300px;
+}
+#grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
 }
 #proposal {
     font-family: Ebrima;
@@ -345,14 +343,9 @@ export default {
 #pad {
     padding-top: 100px;
 };
-
-#banner {
-    background-color: #244061;
-    color: white;
-}
-
-.buffer {
-    margin-top: 20px
-}
-
+#sideFrame {
+    margin-top: 50px;
+    margin-right: 10vw;
+    min-width: 300px;
+};
 </style>
