@@ -5,9 +5,6 @@
     <div id="pad" class="pagedivider"></div>
 </template>
 
-<script>
-</script>
-
 <style>
  #pagebreak { page-break-before: always; }
 </style>

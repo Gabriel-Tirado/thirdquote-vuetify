@@ -1,17 +1,17 @@
 <template>
-    <div id="card">
-        <div id="content">
-            <div><img label="image_1" style="height: 75px; weight: 75px" :src="image1"></div>
-            <div><img label="image_2" style="height: 75px; weight: 75px" :src="image2"></div>
-            <div style="float: right"><h3 style="float: right">{{title}}</h3></div>
-        </div>
+  <div id="card">
+    <div id="content">
+      <div><img label="image_1" style="height: 75px; weight: 75px" :src="image1"></div>
+      <div><img label="image_2" style="height: 75px; weight: 75px" :src="image2"></div>
+      <div style="float: right"><h3 style="float: right">{{title}}</h3></div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'SolutionCard',
-    props: ['image1', 'image2', 'title']
+  name: 'SolutionCard',
+  props: ['image1', 'image2', 'title']
 }
 </script>
 
@@ -32,7 +32,7 @@ export default {
     border: 1px solid #fff;
     box-shadow: 0 0 0 1px rgba(50, 50, 93, 0.05),
       0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);  
-}
+  }
 }
 
 #content {
