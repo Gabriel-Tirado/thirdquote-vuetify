@@ -120,16 +120,16 @@ export default {
     
         // auth.profile = await getUser(auth.user.email)
         
-        
-        return {solution,
-                panel,
-                subpanelComp,
-                enclosureComp,
-                panelIOs,
-                panelIOArray,
-                panelComponents,
-                panelComponentArray,
-                panelLabors, 
+        return {
+            solution,
+            panel,
+            subpanelComp,
+            enclosureComp,
+            panelIOs,
+            panelIOArray,
+            panelComponents,
+            panelComponentArray,
+            panelLabors, 
         }
     }
 

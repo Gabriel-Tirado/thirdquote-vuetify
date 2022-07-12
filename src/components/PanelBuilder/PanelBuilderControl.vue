@@ -67,38 +67,38 @@
 
     <!-- Budgetary Button and Panel Images -->
     <!-- If Mobile/Small Screen -->
-      <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="panelNavDrawer = !panelNavDrawer">Panel Solutions</v-btn>
-      <v-layout v-if="screenWidth < 700">
-        <v-navigation-drawer v-model="panelNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
-          <h2>Panel Solutions</h2>
-          <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
-            <h4>{{solution.name}}</h4>
-            <div class="item" v-for="panel in solution.panels" :key="panel.size">
-              <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
-                <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
-                  {{panel.name}}
-                </v-btn>
-              </router-link>
-            </div>
-            <div class="borderLine" style="width: 70%"></div>
-          </div>
-        </v-navigation-drawer>
-      </v-layout>
-
-      <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="compNavDrawer = !compNavDrawer">Components</v-btn>
-      <v-layout v-if="screenWidth < 700">
-        <v-navigation-drawer v-model="compNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
-          <h2>Components</h2>
-          <div v-for="component in sortItems(panelComponents)" :key="component.id" style="margin: 15px 0">
-            <div v-if="component.component.image_horizontal !== ''">
-              <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
-                <h4>{{component.component.manufacturer}} - {{component.component.model_id}}</h4>
-                <div>{{component.component.name}}</div>
+    <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="panelNavDrawer = !panelNavDrawer">Panel Solutions</v-btn>
+    <v-layout v-if="screenWidth < 700">
+      <v-navigation-drawer v-model="panelNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
+        <h2>Panel Solutions</h2>
+        <div v-for="solution in solutions" :key="solution.id" style="width: 100%;">
+          <h4>{{solution.name}}</h4>
+          <div class="item" v-for="panel in solution.panels" :key="panel.size">
+            <router-link :to="{name: 'CorePanel', params: { url: solution.url, panel_url: panel.panel_url }}" style="text-decoration: none">
+              <v-btn @click="reloadPage()" size="large" elevation="1" style="width: 90%; margin: 5px 0; border: 1px solid #d3dae6;">
+                {{panel.name}}
               </v-btn>
-            </div>
+            </router-link>
           </div>
-        </v-navigation-drawer>
-      </v-layout>
+          <div class="borderLine" style="width: 70%"></div>
+        </div>
+      </v-navigation-drawer>
+    </v-layout>
+
+    <v-btn v-if="screenWidth < 700" size="x-large" elevation="1" style="border: 1px solid lightgrey; white-space: normal !important; width: 75vw; margin: 5px 0;" @click="compNavDrawer = !compNavDrawer">Components</v-btn>
+    <v-layout v-if="screenWidth < 700">
+      <v-navigation-drawer v-model="compNavDrawer" touchless position="top" style="height: 40vh; max-height: 50vh; padding: 10px">
+        <h2>Components</h2>
+        <div v-for="component in sortItems(panelComponents)" :key="component.id" style="margin: 15px 0">
+          <div v-if="component.component.image_horizontal !== ''">
+            <v-btn size="large" v-if="component.panel === calcPanel.id" @click="componentDrawer = !componentDrawer; compName = component.component.name" elevation="1" style="width: 90%; min-height: 50px; height: auto; white-space: normal; border: 1px solid #d3dae6; display: inline-block;">
+              <h4>{{component.component.manufacturer}} - {{component.component.model_id}}</h4>
+              <div>{{component.component.name}}</div>
+            </v-btn>
+          </div>
+        </div>
+      </v-navigation-drawer>
+    </v-layout>
 
     <!-- If PC/Large Screen + Panel Images -->
     <div id="grid">
@@ -144,17 +144,17 @@
 
     <!-- Labor Drawer -->
     <v-layout>
-        <v-navigation-drawer v-model="laborDrawer" touchless :position="(screenWidth > 700 && 'left') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 40vh; width: 100vw; padding: 10px'))">
-            <h1 style="margin: 15px 0">Labor</h1>
-            <div v-for="labor in panelLabors" :key="labor.id" style="margin: 15px 0">
-                <h3>{{labor.type.type}}</h3>
-                <div>Base Hours: {{labor.base_hours}}</div>
-                <div>Base Add: {{labor.base_add}}</div>
-                <div>Base Option Add: {{labor.base_option_add}}</div>
-                <div>Option Add: {{labor.option_add}}</div>
-                <div>Total: {{labor.total}}</div>
-            </div>
-        </v-navigation-drawer>
+      <v-navigation-drawer v-model="laborDrawer" touchless :position="(screenWidth > 700 && 'left') || (screenWidth <= 700 && 'top')" temporary :style="(screenWidth > 700 && ('width: 30vw; padding: 10px')) || (screenWidth <= 700 && ('height: 40vh; width: 100vw; padding: 10px'))">
+        <h1 style="margin: 15px 0">Labor</h1>
+        <div v-for="labor in panelLabors" :key="labor.id" style="margin: 15px 0">
+          <h3>{{labor.type.type}}</h3>
+          <div>Base Hours: {{labor.base_hours}}</div>
+          <div>Base Add: {{labor.base_add}}</div>
+          <div>Base Option Add: {{labor.base_option_add}}</div>
+          <div>Option Add: {{labor.option_add}}</div>
+          <div>Total: {{labor.total}}</div>
+        </div>
+      </v-navigation-drawer>
     </v-layout>
 
     <!-- Component Drawer -->
@@ -209,114 +209,113 @@ import { apiurl } from '@/drf/drfapi'
 
 export default {
     components: {
-        VueHorizontal,
-        // Maintenance,
-        PanelComponentDisplay,
-        // BudgetaryButton,
+      VueHorizontal,
+      // Maintenance,
+      PanelComponentDisplay,
+      // BudgetaryButton,
     },
     props: [
-        'calcSolution',
-        'calcPanel',
-        'calcSubpanelComp',
-        'calcEnclosureComp',
-        'calcPanelIOs',
-        'calcPanelComponents',
-        'calcPanelLabors',
+      'calcSolution',
+      'calcPanel',
+      'calcSubpanelComp',
+      'calcEnclosureComp',
+      'calcPanelIOs',
+      'calcPanelComponents',
+      'calcPanelLabors',
     ],
     async setup (props) {
+      onMounted(() => {
+        window.addEventListener("resize", updateWidth)
+      })
+      onUnmounted(() => {
+        window.removeEventListener("resize", updateWidth)
+      })
 
-        onMounted(() => {
-          window.addEventListener("resize", updateWidth)
-        })
-        onUnmounted(() => {
-          window.removeEventListener("resize", updateWidth)
-        })
+      const screenWidth = ref(window.innerWidth)
+      const solution = ref(props.calcSolution)
+      const panel = ref(props.calcPanel)
+      const subpanelComp = ref(props.calcSubpanelComp)
+      const enclosureComp = ref(props.calcEnclosureComp)
+      const panelIOs = ref(props.calcPanelIOs)
+      const panelIOLedgers = ref(props.calcPanelIOLedgers)
+      const panelComponents = ref(props.calcPanelComponents)
+      const panelComponentLedgers = ref(props.calcPanelComponentLedgers)
+      const panelLabors = ref(props.calcPanelLabors)
+      const solutionNavDrawer = ref(false)
+      const panelNavDrawer = ref(false)
+      const compNavDrawer = ref(false)
+      const laborDrawer = ref(false)
+      const componentDrawer = ref(false)
+      const compName = ref('')
 
-        const screenWidth = ref(window.innerWidth)
-        const solution = ref(props.calcSolution)
-        const panel = ref(props.calcPanel)
-        const subpanelComp = ref(props.calcSubpanelComp)
-        const enclosureComp = ref(props.calcEnclosureComp)
-        const panelIOs = ref(props.calcPanelIOs)
-        const panelIOLedgers = ref(props.calcPanelIOLedgers)
-        const panelComponents = ref(props.calcPanelComponents)
-        const panelComponentLedgers = ref(props.calcPanelComponentLedgers)
-        const panelLabors = ref(props.calcPanelLabors)
-        const solutionNavDrawer = ref(false)
-        const panelNavDrawer = ref(false)
-        const compNavDrawer = ref(false)
-        const laborDrawer = ref(false)
-        const componentDrawer = ref(false)
-        const compName = ref('')
+      const solutions = ref(null)
+      const addr = '/solution/'
+      const solutionsResponse = await fetch(apiurl.concat(addr))
 
-        const solutions = ref(null)
-        const addr = '/solution/'
-        const solutionsResponse = await fetch(apiurl.concat(addr))
+      solutions.value = await solutionsResponse.json();
 
-        solutions.value = await solutionsResponse.json();
+      // Conditioning options
+      // Adds 'selection' field to option array, as well as 'choiceArray' if the option type is 'CHOICE'
+      modifyPanelOptions(panel.value)
 
-        // Conditioning options
-        // Adds 'selection' field to option array, as well as 'choiceArray' if the option type is 'CHOICE'
-        modifyPanelOptions(panel.value)
+      // condition data and add extra front-end fields
+      modifyPanelLabors(panelLabors.value)
 
-        // condition data and add extra front-end fields
-        modifyPanelLabors(panelLabors.value)
+      // condition data and add extra front-end fields
+      modifyPanelComponents(panelComponents.value)
 
-        // condition data and add extra front-end fields
-        modifyPanelComponents(panelComponents.value)
+      baseOptionCalc(panel.value, panelComponents.value, panelLabors.value, panelIOs.value)
 
-        baseOptionCalc(panel.value, panelComponents.value, panelLabors.value, panelIOs.value)
+      // Calculate the base components and labor from base IO selections.
+      baseIOCalc(panelIOs.value, panelComponents.value, panelLabors.value)
 
-        // Calculate the base components and labor from base IO selections.
-        baseIOCalc(panelIOs.value, panelComponents.value, panelLabors.value)
+      // Calculate the base labor and child components from core project components
+      baseComponentCalc(panelComponents.value, panelLabors.value)
 
-        // Calculate the base labor and child components from core project components
-        baseComponentCalc(panelComponents.value, panelLabors.value)
+      // Set watch assignments for all option selections. This is the good stuff.
+      optionWatchAssign(panel.value, panelComponents.value, panelIOs.value, panelLabors.value)
 
-        // Set watch assignments for all option selections. This is the good stuff.
-        optionWatchAssign(panel.value, panelComponents.value, panelIOs.value, panelLabors.value)
+      const displayPrice = priceCalculations(panel.value, panelComponents.value, panelLabors.value, 2)
 
-        const displayPrice = priceCalculations(panel.value, panelComponents.value, panelLabors.value, 2)
+      const updateWidth = () => {
+        screenWidth.value = window.innerWidth
+      }
 
-        const updateWidth = () => {
-          screenWidth.value = window.innerWidth
-        }
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+      async function reloadPage() {
+        await sleep(100)
+        window.location.reload()
+      }
 
-        async function reloadPage() {
-          await sleep(100)
-          window.location.reload()
-        }
+      const sortItems = (_items) => {
+        return _items.sort((a, b) => a.component.id - b.component.id)
+      }
 
-        const sortItems = (_items) => {
-           return _items.sort((a, b) => a.component.id - b.component.id)
-        }
-
-        return {
-            solution,
-            panel,
-            subpanelComp,
-            enclosureComp,
-            panelIOs,
-            panelIOLedgers,
-            panelComponents,
-            panelComponentLedgers,
-            panelLabors,
-            displayPrice,
-            screenWidth,
-            solutionNavDrawer,
-            solutions,
-            laborDrawer,
-            componentDrawer,
-            compName,
-            panelNavDrawer,
-            compNavDrawer,
-            reloadPage,
-            sortItems
-        }
+      return {
+        solution,
+        panel,
+        subpanelComp,
+        enclosureComp,
+        panelIOs,
+        panelIOLedgers,
+        panelComponents,
+        panelComponentLedgers,
+        panelLabors,
+        displayPrice,
+        screenWidth,
+        solutionNavDrawer,
+        solutions,
+        laborDrawer,
+        componentDrawer,
+        compName,
+        panelNavDrawer,
+        compNavDrawer,
+        reloadPage,
+        sortItems
+      }
     }
 }
 </script>
@@ -328,6 +327,24 @@ section {
 }
 
 /* Content Design */
+.borderLine {
+  border-bottom: 1px solid #d3dae6;
+  width: 50%;
+  margin: 10px auto;
+}
+.brand {
+  display: inline;
+  align-items: center;
+  color: #333333;
+}
+.brand .name {
+  margin-left: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
 .card {
   margin: 3px;
   border-radius: 6px;
@@ -340,14 +357,6 @@ section {
   min-height: 60px;
   cursor: pointer;
 }
-
-.image {
-  background-position: center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  padding-top: 50%;
-}
-
 .content {
   padding: 10px 12px;
   flex-grow: 1;
@@ -356,75 +365,22 @@ section {
   justify-content: space-between;
   width: 100%
 }
-
-.borderLine {
-  border-bottom: 1px solid #d3dae6;
-  width: 50%;
-  margin: 10px auto;
-}
-
-.brand {
-  display: inline;
-  align-items: center;
-  color: #333333;
-}
-
-.brand .icon {
-  flex-shrink: 0;
-  height: 20px;
-  width: 20px;
-  fill: currentColor;
-}
-
-.brand .name {
-  margin-left: 2px;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.5;
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.6;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.date {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
 .horizontal {
   margin-left: 10px
 }
 </style>
 
 <style scoped lang="less">
+.description{
+  padding: 5px;
+  text-align: center;
+  float: center;
+}
 
-#grid > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // padding: 10px;
-  // margin: 5px;
-  // border: 1px solid #d3dae6;
-  // border-radius: 6px;
-  // box-sizing: border-box;
-  // transition: 0.17s all ease-in-out;
-  // &:hover {
-  //   border: 1px solid #fff;
-  //   box-shadow: 0 0 0 1px rgba(50, 50, 93, 0.05),
-  //     0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
-  // }
+#buffer > div {
+  padding: 5px;
 }
-#grid > div > * {
-  margin: 5px;
-}
+
 #display > div > {
   display: flex;
   flex-direction: column;
@@ -442,9 +398,33 @@ section {
   }
 }
 
+#grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+#grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#grid > div > * {
+  margin: 5px;
+}
+@media (max-width: 950px)
+{
+  #grid {
+    display: block;
+  }
+}
+
+#laborButton {
+  border: 1px solid #d3dae6;
+  max-height: 50px;
+  margin: 15px 0 5px !important;
+}
+
 #options {
     display: block;
-     
 }
 #options > div {
   // display: flex;
@@ -454,56 +434,6 @@ section {
   box-sizing: border-box;
   transition: 0.17s all ease-in-out;
 }
-.option {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
-.description{
-  padding: 5px;
-  text-align: center;
-  float: center;
-}
-// .name {
-//   grid-column: 1;
-//   grid-row: 2;
-// }
-// .choice {
-//   grid-column: 2;
-//   grid-row: 2;
-// }
-.option > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5px;
-  margin: 5px;
-  box-sizing: border-box;
-  transition: 0.17s all ease-in-out;
-}
-.option > div > * {
-  margin: 5px;
-}
-#buffer > div {
-  padding: 5px;
-}
-
-#laborButton {
-  border: 1px solid #d3dae6;
-  max-height: 50px;
-  margin: 15px 0 5px !important;
-}
-
-#grid {
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-}
-
-@media (max-width: 950px)
-{
-  #grid {
-    display: block;
-  }
-}
 
 @media (max-width: 700px) {
   .panelDisplay {
@@ -511,7 +441,6 @@ section {
     transform-origin: center top;
   }
 }
-
 @media (max-width: 450px) {
   .panelDisplay {
     transform: scale(0.5);

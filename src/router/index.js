@@ -2,13 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 // import auth from '../firebase/auth'
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'Login',
+  //   component: () => import('../views/Login.vue')
+  // },
   {
     path: '/',
-    name: 'Login',
-    component: () => import('../views/Login.vue')
-  },
-  {
-    path: '/home',
     name: 'Home',
     component: () => import('../views/Home.vue')
   },

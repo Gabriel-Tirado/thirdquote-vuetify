@@ -183,12 +183,5 @@ export default {
 
         return { panelErrors, panelErrorModal, budgetaryModal, onSubmit, auth, employerCheck, positionCheck, panelNameCheck, siteCheck, panelName, site, submitPanel, siteMessage, panelMessage }
     },
-    
 }
 </script>
-
-<style>
-    .v-messages__message {
-        color: crimson
-    }
-</style>
